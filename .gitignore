@@ -1,0 +1,86 @@
+# --- what running BioTSR writes -------------------------------------------
+# Downloaded structures and their fetch records, batch reports, locks, staging
+# directories and per-triangle output never belong in the repository; the only
+# tracked data are the fixtures under tests/data/ and the gate evidence under
+# validation/evidence/.
+pdb/
+*.pdb.gz
+*.ent.gz
+.biotsr-fetch/
+fetch_report.csv
+.biotsr-batch.lock
+.*.partial-*
+.*.replaced-*
+.biotsr-batch-*
+batch_summary.csv
+batch_failures.csv
+run.json
+*.triplets_*
+
+# --- local archives and backups ----------------------------------------------
+*.bundle
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+
+# --- private material: keep it outside the repository -------------------------
+# Datasets, spreadsheets and notes are never tracked; tests use the synthetic
+# manifest in tests/data/manifests/.
+private/
+*.private.*
+/*.csv
+*.xls
+*.xls?
+*.ods
+*.numbers
+**/sample_details*.csv
+**/column_means*
+
+# --- local, untracked working material ---------------------------------------
+/legacy/
+/validation/acceptance/
+/validation/legacy_outputs/
+/validation/envs/
+/validation/scratch/
+
+# --- environments and caches ---------------------------------------------
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+*.egg-info/
+build/
+dist/
+.coverage
+.coverage.*
+htmlcov/
+
+# --- editor and OS ---------------------------------------------------------
+.DS_Store
+._*
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# --- credentials, never ----------------------------------------------------
+.env
+.env.*
+*.pem
+*.key
+!**/*.keys_*
+.netrc
+secrets.*
+*_token*
+*credentials*
+
+# --- runtime observations are not evidence ----------------------------------
+validation/**/*_RUNTIME.json

@@ -1,0 +1,119 @@
+# BioTSR continuous integration -- runs on every push and pull request.
+#
+#   tests    the default test suite on every supported Python on Linux, and once
+#            on macOS arm64. This is the evidence behind the Python classifiers
+#            in pyproject.toml. Standard results are compared against frozen
+#            references (tests/data/reference): keys files by SHA-256 everywhere,
+#            triplet files byte for byte on macOS arm64, where their raw
+#            floating-point geometry was produced.
+#   gates    the capability matrix, the tree sanitiser and the command-line and
+#            API gate scripts, then a check that none of them changed a tracked
+#            file: committed gate evidence must regenerate byte-identically.
+#   package  build the wheel and sdist, inspect both, twine-check them, and
+#            install EACH into a clean environment outside the checkout.
+#
+# Nothing here needs history, tags, earlier artifacts, network access to the
+# PDB archive or files outside the repository. The slow reference cases (large
+# structures) run in release-validation.yml.
+name: CI
+
+on:
+  push:
+    branches: [main, "release-*", "release/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  tests:
+    name: pytest · Python ${{ matrix.python-version }} · ${{ matrix.os }} · [${{ matrix.extras }}]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        extras: ["dev"]
+        include:
+          - os: macos-15
+            python-version: "3.13"
+            extras: "dev"
+          # The optional figure: the plot extra must supply everything the
+          # renderer needs, and the tutorial's drawing steps must run.
+          - os: ubuntu-24.04
+            python-version: "3.13"
+            extras: "dev,plot"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install BioTSR with its test extra (and, in one job, the plot extra)
+        run: python -m pip install ".[${{ matrix.extras }}]"
+      - name: Default test suite (slow reference cases are opt-in)
+        env:
+          # Tracked evidence that is missing fails instead of skipping.
+          BIOTSR_REQUIRE_EVIDENCE: "1"
+        run: python -m pytest -q -rs
+      - name: The suite leaves the tree clean
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  gates:
+    name: capability matrix, sanitiser and gate scripts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install BioTSR
+        run: python -m pip install .
+      - name: Capability matrix agrees with the method registry
+        run: python validation/scripts/capability_matrix.py --check
+      - name: No workstation path or account identifier in the tree
+        run: python validation/scripts/sanitize_tree.py --check
+      - name: Gates -- command line
+        run: python validation/scripts/gates_cli.py
+      - name: Gates -- API hardening and round trip
+        run: python validation/scripts/gates_api_hardening.py
+      - name: Gate evidence regenerates byte-identically
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  package:
+    name: build, inspect and install the wheel and sdist
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5   # SOURCE_DATE_EPOCH is the commit time of HEAD
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      # The build tools are development-only. joblib is BioTSR's runtime
+      # dependency: the unpacked sdist's own test suite runs in this interpreter,
+      # and its parallel-batch tests need it.
+      - name: Install the build tools, and joblib for the unpacked sdist's tests
+        run: python -m pip install build twine pytest "joblib>=1.3"
+      - name: Build, inspect, twine-check, and clean-install each artifact
+        run: python validation/scripts/release_artifacts.py --dist-dir dist --json dist/RELEASE_ARTIFACTS.json
+      - uses: actions/upload-artifact@v6
+        with:
+          name: biotsr-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7

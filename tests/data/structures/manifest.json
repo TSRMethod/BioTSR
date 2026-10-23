@@ -1,0 +1,167 @@
+{
+  "source": "https://files.rcsb.org/download/{PDB_ID}.pdb",
+  "note": "Unmodified RCSB PDB entries, used by the test suite and the tutorials. Each file's SHA-256 is recorded so a changed copy is detectable; RCSB remediates entries over time, so a fresh download can differ from these bytes.",
+  "structures": [
+    {
+      "pdb_id": "1UBQ",
+      "source_url": "https://files.rcsb.org/download/1UBQ.pdb",
+      "retrieval_date": "2026-09-02",
+      "bytes": 78570,
+      "sha256": "d4a6812d8951cf6594e6a0763f089e35f5a80b62acb3c117b2c5565228a7b161",
+      "description": "Human ubiquitin, 1.8 Å crystal structure: one protein chain (A, 76 residues), standard amino acids only; waters are the only HETATM records; no alternate locations, insertion codes or extra models.",
+      "chains_used": [
+        "A"
+      ],
+      "target": null,
+      "used_for": "protein Cα TSR and its modifiers; SSE-TSR (2 HELIX and 5 SHEET records); amino-acid atomic TSR (LEU 15 is a complete interior residue; the C-terminal GLY 76 carries OXT and is excluded by the historical exact-atom-count rule)."
+    },
+    {
+      "pdb_id": "1BRS",
+      "source_url": "https://files.rcsb.org/download/1BRS.pdb",
+      "retrieval_date": "2026-09-02",
+      "bytes": 466965,
+      "sha256": "0076aae54252706a8c8c02f7b1e71ce2394b0e928b413590b4ac12aade9e8f6c",
+      "description": "Barnase–barstar complex, three copies per asymmetric unit (A/B/C barnase, D/E/F barstar, per the COMPND records); 21 HELIX and 23 SHEET records.",
+      "chains_used": [
+        "A",
+        "D"
+      ],
+      "target": null,
+      "used_for": "protein–protein cross TSR (A with D); SSE-TSR."
+    },
+    {
+      "pdb_id": "3PTB",
+      "source_url": "https://files.rcsb.org/download/3PTB.pdb",
+      "retrieval_date": "2026-09-02",
+      "bytes": 183384,
+      "sha256": "288f7954d4d013fa8eab3808e1037e2958e2dcd12c9eca65a3f1014404a9f9a2",
+      "description": "Bovine β-trypsin with bound benzamidine.",
+      "chains_used": [
+        "A"
+      ],
+      "target": "BEN (benzamidine), residue 1, chain A; the single CA (calcium) HETATM is not a ligand target",
+      "used_for": "drug (ligand) TSR and drug–protein cross TSR."
+    },
+    {
+      "pdb_id": "1BNA",
+      "source_url": "https://files.rcsb.org/download/1BNA.pdb",
+      "retrieval_date": "2026-09-02",
+      "bytes": 76464,
+      "sha256": "df42f1506792f191b957227b061360652adcf6f813eb69d9ec553067ea584670",
+      "description": "B-DNA dodecamer (Dickerson–Drew), two complementary DNA chains, no protein. The 5'-terminal DC of chain A lacks its phosphate atoms, so the historical exact-atom-count rule drops it.",
+      "chains_used": [
+        "A",
+        "B"
+      ],
+      "target": null,
+      "used_for": "nucleotide TSR."
+    },
+    {
+      "pdb_id": "1TUP",
+      "source_url": "https://files.rcsb.org/download/1TUP.pdb",
+      "retrieval_date": "2026-09-02",
+      "bytes": 530469,
+      "sha256": "e4fe9eaa33d05b46e627444ab152f1b21ed9e983ba25b5e64ca593ac3878f634",
+      "description": "p53 core domain bound to DNA: protein chains A/B/C and DNA chains E/F; 10 HELIX and 33 SHEET records (β-sandwich).",
+      "chains_used": [
+        "A",
+        "B",
+        "C",
+        "E",
+        "F"
+      ],
+      "target": null,
+      "used_for": "nucleotide–protein cross TSR; sheet-heavy SSE-TSR."
+    },
+    {
+      "pdb_id": "1KX5",
+      "source_url": "https://files.rcsb.org/download/1KX5.pdb",
+      "retrieval_date": "2026-09-03",
+      "bytes": 1457676,
+      "sha256": "6f99aa27cffb3174d0406ebd644eba6475bed61047305aac94fb844d3718112a",
+      "description": "Nucleosome core particle: histone chains A–H (standard amino acids only) and DNA strands I–J (DA/DC/DG/DT only); 38 HELIX records. Its dense interface contains distinct atoms that share a (side, atom name) pair, which is what distinguishes full physical atom identity from the historical pool identity.",
+      "chains_used": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J"
+      ],
+      "target": null,
+      "used_for": "nucleotide–protein cross TSR and cross atom identity; helix-heavy SSE-TSR."
+    },
+    {
+      "pdb_id": "5WT9",
+      "source_url": "https://files.rcsb.org/download/5WT9.pdb",
+      "retrieval_date": "2026-09-05",
+      "bytes": 758646,
+      "sha256": "9d297d86874efdf5dcd356a9a8cbce231abeacd0352c91f800fe8f22e19fb1aa",
+      "description": "Glycoprotein with an N-linked NAG at chain A residue 1, and a NAG–NAG–FUC chain.",
+      "chains_used": [
+        "A"
+      ],
+      "target": "NAG, residue 1, chain A (14 heavy atoms, so C(14,3) = 364 triangles)",
+      "used_for": "carbohydrate TSR and carbohydrate-chain TSR, including mirror."
+    },
+    {
+      "pdb_id": "2AC0",
+      "source_url": "https://files.rcsb.org/download/2AC0.pdb",
+      "retrieval_date": null,
+      "bytes": 724464,
+      "sha256": "6a9542828bc8abecacce2e44c83b99fe7e3516b4e03cad916c78ff4704d48754",
+      "description": "p53 tetramer bound to DNA (complex I); chain A has 198 Cα atoms.",
+      "chains_used": [
+        "A",
+        "E",
+        "F"
+      ],
+      "target": "DNA: DT/DC in chain E, DA in chain F",
+      "used_for": "protein Cα reproduction of the historical program on a larger chain; nucleotide TSR; nucleotide–protein cross TSR."
+    },
+    {
+      "pdb_id": "3EJ1",
+      "source_url": "https://files.rcsb.org/download/3EJ1.pdb",
+      "retrieval_date": null,
+      "bytes": 777276,
+      "sha256": "5eb671582c9c5e09ceca4f75cd2c44d1c71fbfcd4ce925b3c4d5cd346bcccccf",
+      "description": "CDK2/cyclin A complexed with a pyrazolopyridazine inhibitor; chain A has 295 Cα atoms.",
+      "chains_used": [
+        "A"
+      ],
+      "target": null,
+      "used_for": "protein Cα reproduction on a larger chain; protein–protein cross TSR."
+    },
+    {
+      "pdb_id": "6G9M",
+      "source_url": "https://files.rcsb.org/download/6G9M.pdb",
+      "retrieval_date": null,
+      "bytes": 546102,
+      "sha256": "b6fa8a4d8a29057e042d143dcd0741919989a441ea88de5e5830c348e66625e4",
+      "description": "MAPK1 (ERK2) with a fragment-derived inhibitor; chain A has 341 Cα atoms and six CYS.",
+      "chains_used": [
+        "A"
+      ],
+      "target": "ESW, residue 404, chain A",
+      "used_for": "protein Cα reproduction on a larger chain; drug TSR; amino-acid atomic TSR."
+    },
+    {
+      "pdb_id": "7LF9",
+      "source_url": "https://files.rcsb.org/download/7LF9.pdb",
+      "retrieval_date": null,
+      "bytes": 601425,
+      "sha256": "920cfde71d68bf50eea900f96454f236437fd1251041928092efcbdd1e9bdec7",
+      "description": "Hyperglycosylated human IgG1 Fc (Fc329); chain A has 207 Cα atoms.",
+      "chains_used": [
+        "A",
+        "D"
+      ],
+      "target": "NAG residues 1, 2 and 5 in chain D",
+      "used_for": "protein Cα reproduction on a larger chain; carbohydrate TSR; carbohydrate–protein cross TSR."
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+protein,aa_chain,aa_chain_2,drug_chain,carb_chain,nt_chain,aa_group,aa_ind,aa_ind_mix,aa_ind_specific,aa_ind_2,aa_ind_mix_2,aa_ind_specific_2,aa_selection,aa_selection_2,aa_atom_selection,aa_atom_selection_2,drug_name,drug_id,drug_atom_selected,carb_name,carb_id,car_atom_selected,nt_name,nt_id,nt_atom_selected,comment_1,comment_2
+6G9M,A,,A,,,kinase,TRP,TRP;MET,LYS_207;SER266,,,,26-28;192;207,,TYR_30_OH;TYR_30_CZ;ALA_35_CB;LYS_207_NZ;TRP_192_NE1,,ESW,404,C3;C5;O6;N8;C9;C18;CL1,,,,,,,synthetic test row,ligand and protein columns
+3PTB,A,,A,,,protease,,,,,,,,,,,BEN,1,,,,,,,,synthetic test row,
+7LF9,A,,,D,,glycoprotein,,,,,,,,,,,,,,NAG,1,C1;C2;N2;O5;O6,,,,synthetic test row,carbohydrate monomer
+5WT9,A,,,A,,glycoprotein,,,,,,,,,,,,,,NAG,1,C1;C4;O4;C7;O7,,,,synthetic test row,
+2AC0,A,,,,E,DNA-binding,,,,,,,,,,,,,,,,,DT,7,P;C1';N1;C2;O4;C7;C6,synthetic test row,nucleotide in a protein-DNA complex

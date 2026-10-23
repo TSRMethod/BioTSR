@@ -1,0 +1,206 @@
+{
+  "category_totals": {
+    "regular": 816
+  },
+  "chain": "A",
+  "counts": {
+    "ledger_balances": true,
+    "n_acos_clamped": 0,
+    "n_candidates": 816,
+    "n_degenerate": 0,
+    "n_filtered_by_size": 0,
+    "n_points": 18,
+    "n_triangles": 816,
+    "n_unique_keys": 457,
+    "n_valid_geometry": 816
+  },
+  "key_space": {
+    "angle_convention": "pi:3.141592653589793",
+    "canonical_ordering_version": "legacy_four_case_v1",
+    "distance_scheme": {
+      "content_fingerprint": "b9a8e4a5b9525db2ef7c621bd962215c82b9dc9b8bcba448f16c504d956bb34c",
+      "name": "distance_atomic_18",
+      "radix": 18
+    },
+    "key_formula_version": "mixed_radix_v1",
+    "label_scheme": {
+      "content_fingerprint": "c41c0b45c0528cb7749193e330ebb93081e0b902d6ccd13e4f8ca34df115843a",
+      "name": "atom_lexicon_standard_112",
+      "radix": 112
+    },
+    "median_convention": "from_midpoint",
+    "mirror_convention": "disabled_never_negate",
+    "numerical_precision": "float64",
+    "sqrt_convention": "math_sqrt",
+    "theta_scheme": {
+      "content_fingerprint": "5b9baaadfb896a053f39761c00ed54b884bcddf67c27af225ba93c17267edf2b",
+      "name": "theta29",
+      "radix": 29
+    }
+  },
+  "key_space_fingerprint": "1187735d9085815ee015c615a90215efce41daa5a7e3ee3e1005344340f4a8b6",
+  "method": "aa_ind_specific",
+  "provenance": {
+    "base_profile": "standard_aminoacid_type_v1",
+    "cross": null,
+    "legacy_compatibility_profile": false,
+    "modifiers": [],
+    "profile": "standard_aminoacid_type_v1",
+    "selection_request": {
+      "sides": [
+        {
+          "arguments": {
+            "residues": [
+              "SER_4",
+              "TPO_3",
+              "TYR_6"
+            ]
+          },
+          "chain": "A",
+          "excluded": [
+            "TPO_3"
+          ],
+          "instances": [
+            "SER_4",
+            "TYR_6"
+          ],
+          "role": "",
+          "scope": "named_residues",
+          "selector": "specific_residue_atoms",
+          "side": "primary"
+        }
+      ]
+    },
+    "target": "SER_4;TPO_3;TYR_6",
+    "truncated_at_line": 117
+  },
+  "result_schema_version": 2,
+  "sampling": {
+    "candidate_strategy": "exhaustive_c_n_3",
+    "completeness_policy": "exact_legacy_atom_count",
+    "composition_rule": null,
+    "contact_cutoff": null,
+    "contact_filter": null,
+    "contact_filter_rule": null,
+    "contact_projection": null,
+    "cross_method": null,
+    "degenerate_policy": "skip_and_record+acos_clamp",
+    "pool_identity": null,
+    "pool_order": null,
+    "scope": "pooled",
+    "selector": "specific_residue_atoms",
+    "seq_label_policy": "accept_all",
+    "side_a_chain": null,
+    "side_a_selector": null,
+    "side_b_chain": null,
+    "side_b_selector": null,
+    "size_filter": null
+  },
+  "sampling_fingerprint": "d40499d0431a615c00551b69ac16874abc8f4d6393c824ea3a7475288350bdf8",
+  "selection": {
+    "atoms_missing": [
+      "TPO_3"
+    ],
+    "chains_requested": [
+      "A"
+    ],
+    "chains_used": [
+      "A"
+    ],
+    "n_points": 18,
+    "n_residues_used": 2,
+    "residues_used": [
+      "4_SER",
+      "6_TYR"
+    ],
+    "selector": "specific_residue_atoms"
+  },
+  "skipped": [
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/N (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/CA (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/CB (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/CG2 (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/OG1 (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/P (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/O1P (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/O2P (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/O3P (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/C (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "SYNPHOS/1/A/TPO/3/O (policy=website_tsr)",
+      "indices": null,
+      "reason": "hetatm_excluded",
+      "stage": "selection"
+    },
+    {
+      "detail": "TPO_3 was requested but no admitted instance was found in chain A",
+      "indices": null,
+      "reason": "requested_entity_not_found",
+      "stage": "selection"
+    }
+  ],
+  "source": {
+    "altloc_policy": "blank_or_a",
+    "model": 1,
+    "parser_backend": "pdb_legacy",
+    "path": "SYNPHOS.pdb",
+    "sha256": "71e2eaf877e7d484bbdebf93fb8fbaa5eb878f95c032762c5ab8ef3bb838f1cd",
+    "structure_id": "SYNPHOS"
+  },
+  "sse": null,
+  "sse_coverage": null,
+  "structure_id": "SYNPHOS",
+  "warnings": [
+    "requested but not found: TPO_3"
+  ]
+}

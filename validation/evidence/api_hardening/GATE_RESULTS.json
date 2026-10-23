@@ -1,0 +1,695 @@
+{
+  "by_category": {
+    "analysis": {
+      "failed": 0,
+      "total": 14
+    },
+    "refusal": {
+      "failed": 0,
+      "total": 17
+    },
+    "robustness": {
+      "failed": 0,
+      "total": 13
+    },
+    "round_trip": {
+      "failed": 0,
+      "total": 48
+    },
+    "surface": {
+      "failed": 0,
+      "total": 19
+    }
+  },
+  "gates": [
+    {
+      "category": "round_trip",
+      "detail": "45349 keys",
+      "name": "keys_and_categories_survive__protein_calpha",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "da39d73510c54a4c",
+      "name": "both_fingerprints_survive__protein_calpha",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_calpha",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "26395 keys",
+      "name": "keys_and_categories_survive__protein_calpha_grouped",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "276bff24fa3562eb",
+      "name": "both_fingerprints_survive__protein_calpha_grouped",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_calpha_grouped",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "51913 keys",
+      "name": "keys_and_categories_survive__protein_calpha_mirror",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "c23d152ac6e7a301",
+      "name": "both_fingerprints_survive__protein_calpha_mirror",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_calpha_mirror",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "6848 keys",
+      "name": "keys_and_categories_survive__protein_calpha_size_filtered",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "da39d73510c54a4c",
+      "name": "both_fingerprints_survive__protein_calpha_size_filtered",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_calpha_size_filtered",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "431473 keys",
+      "name": "keys_and_categories_survive__protein_calpha_sse",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "da39d73510c54a4c",
+      "name": "both_fingerprints_survive__protein_calpha_sse",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_calpha_sse",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "46 keys",
+      "name": "keys_and_categories_survive__amino_acid_atomic",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__amino_acid_atomic",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__amino_acid_atomic",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "38 keys",
+      "name": "keys_and_categories_survive__drug",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__drug",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__drug",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "247 keys",
+      "name": "keys_and_categories_survive__carbohydrate",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__carbohydrate",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__carbohydrate",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "654 keys",
+      "name": "keys_and_categories_survive__nucleotide",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__nucleotide",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__nucleotide",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "72 keys",
+      "name": "keys_and_categories_survive__drug_protein_cross",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__drug_protein_cross",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__drug_protein_cross",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "685 keys",
+      "name": "keys_and_categories_survive__protein_protein_cross_all_atom",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1ecbef1b83344df6",
+      "name": "both_fingerprints_survive__protein_protein_cross_all_atom",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_protein_cross_all_atom",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "356 keys",
+      "name": "keys_and_categories_survive__protein_protein_cross_calpha_interface",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "da39d73510c54a4c",
+      "name": "both_fingerprints_survive__protein_protein_cross_calpha_interface",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "keys + sidecar identical",
+      "name": "re_serialization_is_byte_identical__protein_protein_cross_calpha_interface",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "result_schema_version = 2",
+      "name": "the_sidecar_declares_an_explicit_schema_version",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "2 vs 1.0.0rc7",
+      "name": "the_schema_version_is_not_the_package_version",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "10 fields",
+      "name": "key_space_round_trips_through_json_exactly",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "17 of 19 fields populated",
+      "name": "sampling_profile_round_trips_through_json_exactly",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "both -> 3.0",
+      "name": "an_integer_and_a_float_cutoff_fingerprint_identically",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "standard_atomic_cross_v1, standard_protein_calpha_v1, standard_protein_calpha_v1+aa_grouping",
+      "name": "the_profile_that_produced_a_result_survives",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "sheet_id_and_serial, 18 categories",
+      "name": "sse_annotation_provenance_survives_in_full",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "1UBQ_A_amino_acid_atomic_LEU_15, 5WT9_A_carbohydrate_NAG_1, 3PTB_A_drug_BEN_1, 3PTB_A_A_drug_protein_cross_BEN_1, 1BNA_A_nucleotide_DC_3",
+      "name": "an_entity_scoped_result_keeps_its_target_in_the_prefix",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "A|D at 3.2 A",
+      "name": "a_cross_result_keeps_both_sides_and_its_pool",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "stable under repetition",
+      "name": "a_loaded_result_can_be_saved_and_loaded_again",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "stated on the result, not silently None",
+      "name": "triplets_are_declared_absent_rather_than_guessed",
+      "passed": true
+    },
+    {
+      "category": "round_trip",
+      "detail": "()",
+      "name": "key_order_is_empty_rather_than_fabricated",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "refused, not guessed",
+      "name": "an_unversioned_sidecar_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "v9 refused by a v2 reader",
+      "name": "a_future_schema_version_is_refused_and_says_to_upgrade",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "4 malformed spellings refused",
+      "name": "a_non_integer_schema_version_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "the keys alone do not say what they mean",
+      "name": "a_keys_file_with_no_sidecar_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "caught by the sidecar's own count",
+      "name": "a_truncated_keys_file_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "sorted order is a contract, not a coincidence",
+      "name": "a_keys_file_out_of_order_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "the legacy two-column shape is not silently accepted",
+      "name": "a_keys_file_with_a_foreign_header_is_refused",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "a sidecar cannot claim an identity it does not derive",
+      "name": "an_edited_key_space_is_caught_by_its_own_fingerprint",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "sampling too, not only the key space",
+      "name": "an_edited_sampling_profile_is_caught_by_its_own_fingerprint",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "caught on n_triangles",
+      "name": "two_different_results_cannot_be_combined",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "keys, sidecar and an explicit pairing all refused",
+      "name": "a_release_candidate_file_is_refused_by_name",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "schema 1 refused; this build reads schema 2",
+      "name": "a_schema_1_sidecar_is_refused_as_a_release_candidate_result",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "no sidecar of its prefix; another result's sidecar refused",
+      "name": "a_renamed_keys_file_is_never_paired_by_guessing",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "8 corruptions, all MalformedResult",
+      "name": "every_corrupt_sidecar_raises_MalformedResult_and_not_something_else",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "10 fields, none defaultable",
+      "name": "a_key_space_field_is_never_defaulted",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "19 fields, none defaultable",
+      "name": "a_sampling_field_is_never_defaulted",
+      "passed": true
+    },
+    {
+      "category": "refusal",
+      "detail": "both identities",
+      "name": "an_unknown_identity_field_is_refused_not_ignored",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "31455 common keys over 2 samples",
+      "name": "common_keys_from_loaded_results_are_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "440934 columns",
+      "name": "feature_vectors_from_loaded_results_are_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "0.024763975461",
+      "name": "generalized_jaccard_from_loaded_results_is_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "5 measures",
+      "name": "every_similarity_measure_from_loaded_results_is_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "identical",
+      "name": "the_distance_matrix_from_loaded_results_is_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "4 leaves, ARI -0.333333",
+      "name": "clustering_from_loaded_results_is_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "4 leaves, 3 merges, no partition",
+      "name": "the_uncut_tree_from_loaded_results_is_identical",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "refused with the differing field named",
+      "name": "loading_does_not_launder_an_incompatible_key_space",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "both reports byte-identical",
+      "name": "the_cli_analyses_saved_results_identically_to_recomputing_them",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "51913 keys, keyspace c23d152ac6e7a301",
+      "name": "an_api_loaded_result_equals_a_cli_loaded_result",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "exit 2",
+      "name": "the_cli_refuses_a_dataset_named_two_ways_at_once",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "identity and label intact after the move; a renamed file refused",
+      "name": "a_relocated_folder_keeps_every_identity_and_every_row_label",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "exit 2, naming both files",
+      "name": "the_cli_refuses_two_saved_results_that_would_share_an_id",
+      "passed": true
+    },
+    {
+      "category": "analysis",
+      "detail": "exit 2, naming what a completed calculation is",
+      "name": "the_cli_refuses_a_results_directory_with_nothing_in_it",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "55 names",
+      "name": "every_name_in_tsr___all___resolves",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "6 import paths",
+      "name": "the_documented_import_paths_work",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "biotsr.load_result",
+      "name": "the_loader_is_reachable_from_the_top_level",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "both sub-packages named",
+      "name": "sse_is_exported_alongside_analysis",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "9 names, native format only",
+      "name": "every_serializer_module_is_declared_by_tsr_io",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "7 types under TSRError",
+      "name": "every_package_refusal_is_a_tsr_error",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "backward compatible",
+      "name": "every_package_refusal_is_still_a_value_error",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "IncompatibleRepresentation",
+      "name": "the_four_incompatibility_types_share_a_parent",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "4 entry points take allow_mixed_processing",
+      "name": "the_comparison_rule_has_one_entry_point_and_one_opt_in",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "5 stdlib types stay outside",
+      "name": "a_programming_error_is_not_a_tsr_error",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "7 entries",
+      "name": "the_cli_no_longer_keeps_its_own_error_taxonomy",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "refused, naming the given and the standard profile",
+      "name": "the_python_api_validates_a_profile_against_its_method",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "2 refused; the standard profile itself is accepted",
+      "name": "a_derived_or_named_profile_is_refused",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "20 methods",
+      "name": "every_method_accepts_its_own_default_profile",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "10 refusals, all from the package",
+      "name": "the_python_api_validates_every_scientific_argument_the_cli_does",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "20 methods resolve their profile through their own recipe",
+      "name": "defaults_have_one_source_of_truth",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "metadata() copies what it embeds",
+      "name": "a_result_cannot_be_mutated_through_its_own_metadata",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "the mirror-convention validation's aliasing fix still holds",
+      "name": "two_results_never_share_a_category_counter",
+      "passed": true
+    },
+    {
+      "category": "surface",
+      "detail": "the loader copies, it does not alias",
+      "name": "a_loaded_result_shares_nothing_with_the_file_it_came_from",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "saved and loaded",
+      "name": "a_path_with_spaces_round_trips",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "r\u00e9sultats",
+      "name": "a_path_with_non_ascii_characters_round_trips",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "value preserved, bytes ASCII-stable",
+      "name": "a_non_ascii_source_path_survives_into_the_sidecar",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "every open() in the native format",
+      "name": "every_native_file_declares_its_encoding",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "input and saved result both read-only",
+      "name": "a_read_only_input_is_readable",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "relative in, relative out",
+      "name": "a_relative_path_resolves_against_the_working_directory",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "no dependency on the checkout layout",
+      "name": "loading_works_from_an_unrelated_working_directory",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "written and read outside the checkout",
+      "name": "an_output_root_outside_the_repository_works",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "4 bad paths, each refused with a message",
+      "name": "loading_a_directory_or_a_missing_file_fails_cleanly",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "dependencies = joblib>=1.3",
+      "name": "the_package_declares_no_dependency_beyond_joblib",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "stdlib + relative imports only",
+      "name": "the_reader_imports_nothing_outside_the_standard_library",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "9 modules, none reaches upward",
+      "name": "the_domain_layer_is_still_a_dependency_sink",
+      "passed": true
+    },
+    {
+      "category": "robustness",
+      "detail": "20 methods, none deferred",
+      "name": "no_deferred_candidate_method_became_reachable",
+      "passed": true
+    }
+  ],
+  "n_failed": 0,
+  "n_gates": 111,
+  "result_schema_version": 2
+}

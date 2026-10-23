@@ -1,0 +1,20 @@
+# What the source distribution carries, stated explicitly rather than left to
+# setuptools' defaults.  The sdist is the package plus what is needed to build,
+# test and cite it -- including tests/data/structures/, the small set of
+# unmodified PDB entries the computational tests run on.  The frozen reference
+# outputs, the historical programs and the documentation stay in the repository
+# (docs/RELEASING.md).
+include README.md CHANGELOG.md CITATION.cff pyproject.toml
+# LICENSE and NOTICE are added by setuptools itself (its default license-file
+# patterns) to both the sdist and the wheel.
+graft src/biotsr
+graft tests
+prune validation
+prune legacy
+prune docs
+prune .github
+global-exclude __pycache__ *.py[cod] .DS_Store ._*
+# Spreadsheets and private dataset tables never ship, even if one is left in the
+# working tree (release_artifacts.py also refuses any member that is not a
+# tracked file).
+global-exclude *.xls *.xlsx *.xlsm *.ods *.numbers sample_details*.csv column_means*

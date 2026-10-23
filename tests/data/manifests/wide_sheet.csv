@@ -1,0 +1,9 @@
+protein,aa_chain,drug_chain,carb_chain,nt_chain,aa_chain_2,aa_group,aa_ind,aa_ind_mix,aa_ind_specific,aa_ind_2,aa_ind_mix_2,aa_ind_specific_2,drug_name,drug_id,carb_name,carb_id,nt_name,nt_id,aa_selection,aa_selection_2,aa_atom_selection,aa_atom_selection_2,drug_atom_selected,car_atom_selected,nt_atom_selected,comment_1
+6G9M,A,A,,,,kinase,TYR,TYR;ARG,ARG_15;GLU12,,,,ESW,404,,,,,12-15;20,,TYR_30_OH;TYR_25_CZ,,C3;C5;O6,,,ligand row
+3PTB,A,A,,,,protease,TYR,,,,,,BEN,1,,,,,,,,,,,,ligand row in a second structure
+7LF9,B,,D,,,glycoprotein,TYR,,,,,,,,NAG,1,,,,,,,,C1;C2;N2,,one NAG of the glycan
+7LF9,B,,D,,,glycoprotein,TYR,,,,,,,,NAG,2,,,,,,,,C1;C2;N2,,another NAG of the same glycan
+7LF9,B,,D,,,glycoprotein,TYR,,,,,,,,NAG,5,,,,,,,,C1;C2;N2,,a NAG on the other branch
+7LF9,B,,D,,,glycoprotein,TYR,,,,,,,,MAN,,,,,,,,,,,every MAN of the glycan: no identifier
+1BRS,A,,,,D,barnase-barstar,LYS,LYS;ARG,LYS_19;TYR24,ASP,ASP;GLU,LYS1;ARG_11,,,,,,,1-30,1-20,,,,,,two protein chains
+2AC0,A,,,E,,DNA-binding,TYR,,,,,,,,,,DT,7,,,,,,,P;C1';N1,nucleotide row

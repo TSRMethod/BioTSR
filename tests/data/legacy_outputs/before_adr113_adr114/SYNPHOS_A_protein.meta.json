@@ -1,0 +1,132 @@
+{
+  "category_totals": {
+    "regular": 364
+  },
+  "chain": "A",
+  "counts": {
+    "ledger_balances": true,
+    "n_acos_clamped": 0,
+    "n_candidates": 364,
+    "n_degenerate": 0,
+    "n_filtered_by_size": 0,
+    "n_points": 14,
+    "n_triangles": 364,
+    "n_unique_keys": 359,
+    "n_valid_geometry": 364
+  },
+  "key_space": {
+    "angle_convention": "pi:3.141592653589793",
+    "canonical_ordering_version": "legacy_four_case_v1",
+    "distance_scheme": {
+      "content_fingerprint": "bc3e319d4ecd24d25073b0a297faa8880874f6c9834d2ac50171a8e46c16ba15",
+      "name": "distance_calpha_35",
+      "radix": 35
+    },
+    "key_formula_version": "mixed_radix_v1",
+    "label_scheme": {
+      "content_fingerprint": "d6fbfd306d14ec59720c1fe189cfac3fa30c12d6bdf2139b4a56f5445eb81d92",
+      "name": "amino_acid_30",
+      "radix": 30
+    },
+    "median_convention": "from_midpoint",
+    "mirror_convention": "disabled_never_negate",
+    "numerical_precision": "float64",
+    "sqrt_convention": "pow_half",
+    "theta_scheme": {
+      "content_fingerprint": "5b9baaadfb896a053f39761c00ed54b884bcddf67c27af225ba93c17267edf2b",
+      "name": "theta29",
+      "radix": 29
+    }
+  },
+  "key_space_fingerprint": "da39d73510c54a4c07529e17f34449789584fad4ea79b020b1badd3b5550d30b",
+  "method": "protein",
+  "provenance": {
+    "base_profile": "standard_protein_calpha_v1",
+    "cross": null,
+    "legacy_compatibility_profile": false,
+    "modifiers": [],
+    "profile": "standard_protein_calpha_v1",
+    "selection_request": {
+      "sides": [
+        {
+          "arguments": {},
+          "chain": "A",
+          "excluded": [],
+          "instances": [],
+          "role": "",
+          "scope": "whole_chain",
+          "selector": "protein_calpha",
+          "side": "primary"
+        }
+      ]
+    },
+    "target": "A",
+    "truncated_at_line": 117
+  },
+  "result_schema_version": 2,
+  "sampling": {
+    "candidate_strategy": "exhaustive_c_n_3",
+    "completeness_policy": null,
+    "composition_rule": null,
+    "contact_cutoff": null,
+    "contact_filter": null,
+    "contact_filter_rule": null,
+    "contact_projection": null,
+    "cross_method": null,
+    "degenerate_policy": "skip_and_record+acos_clamp",
+    "pool_identity": null,
+    "pool_order": null,
+    "scope": "pooled",
+    "selector": "protein_calpha",
+    "seq_label_policy": "accept_all",
+    "side_a_chain": null,
+    "side_a_selector": null,
+    "side_b_chain": null,
+    "side_b_selector": null,
+    "size_filter": null
+  },
+  "sampling_fingerprint": "866885436e9a02bbbd52eecfc8372be2191d80ea737a0da509a43d0f3d56511d",
+  "selection": {
+    "atoms_missing": [],
+    "chains_requested": [
+      "A"
+    ],
+    "chains_used": [
+      "A"
+    ],
+    "n_points": 14,
+    "n_residues_used": 14,
+    "residues_used": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "10A",
+      "10B",
+      "11",
+      "12"
+    ],
+    "selector": "protein_calpha"
+  },
+  "skipped": [],
+  "source": {
+    "altloc_policy": "blank_or_a",
+    "input_rules": "input_rules_v2",
+    "model": 1,
+    "modified_residue_policy": "hetatm_amino_acids:CME,CSD,CSO,LLP,M3L,MSE,NIY,PTR,SEP,TPO,TRF;ca_element:C_or_blank",
+    "parser_backend": "pdb_legacy",
+    "path": "SYNPHOS.pdb",
+    "sha256": "71e2eaf877e7d484bbdebf93fb8fbaa5eb878f95c032762c5ab8ef3bb838f1cd",
+    "structure_id": "SYNPHOS"
+  },
+  "sse": null,
+  "sse_coverage": null,
+  "structure_id": "SYNPHOS",
+  "warnings": []
+}

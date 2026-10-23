@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=77.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biotsr"
+# One source of truth: ``biotsr.__version__`` in src/biotsr/__init__.py, read
+# statically by setuptools.  ``biotsr --version``, the wheel/sdist metadata and
+# every provenance record all come from that one string (docs/RELEASING.md).
+dynamic = ["version"]
+description = "BioTSR -- the unified software implementation of the Triangular Spatial Relationship (TSR) methodology"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.9"
+# Apache-2.0 (docs/LICENSING.md, ADR-085), as an SPDX expression (PEP 639).
+# LICENSE is the canonical text; NOTICE carries the third-party notices.  Both
+# ship in the wheel and the sdist.
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "TSR Research Group" }]
+maintainers = [{ name = "TSR Research Group" }]
+keywords = [
+    "TSR",
+    "Triangular Spatial Relationship",
+    "protein structure",
+    "structural bioinformatics",
+    "PDB",
+    "ligand",
+    "carbohydrate",
+    "nucleotide",
+]
+# Python versions are listed only where the full test suite has actually been
+# run and passed (docs/RELEASING.md, "Python support policy").
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+# One third-party runtime dependency, joblib, for parallel batch execution
+# (ADR-086).  Only biotsr.cli.parallel imports it, inside a function, and only
+# for --jobs greater than 1, so the scientific core still imports nothing outside
+# the standard library (ADR-008) -- a test walks every import in the package.
+# 1.3 added the ordered generator output that keeps a large batch's memory
+# bounded, and supports every Python BioTSR does.
+dependencies = ["joblib>=1.3"]
+
+[project.urls]
+Homepage = "https://tsrmethod.github.io/"
+Repository = "https://github.com/TSRMethod/BioTSR"
+Documentation = "https://github.com/TSRMethod/BioTSR/blob/main/docs/USER_GUIDE.md"
+Issues = "https://github.com/TSRMethod/BioTSR/issues"
+Changelog = "https://github.com/TSRMethod/BioTSR/blob/main/CHANGELOG.md"
+
+# The command line is part of the package, not a separate tool: it is a thin
+# orchestration layer over biotsr.api and adds no dependency (argparse and csv are
+# stdlib, and the hygiene test enforces that).  `python -m biotsr` is offered
+# alongside it because a console script is only on PATH when the environment's
+# bin directory is, which on a cluster it often is not.
+[project.scripts]
+biotsr = "biotsr.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+# Only biotsr.analysis.render -- the optional clustermap figure -- imports it,
+# and nothing imports that module for you.  Every number it draws is available
+# without it.  Exactly what render.py imports (a test compares the two lists);
+# the renderer draws with matplotlib alone, so nothing else is needed at run
+# time either.  3.5 is the oldest release checked (docs/RELEASING.md).
+plot = ["matplotlib>=3.5"]
+# Kept so that `pip install "biotsr[parallel]"`, which earlier instructions gave,
+# still works.  It adds nothing: joblib is a standard dependency (ADR-086).
+parallel = ["joblib>=1.3"]
+
+[tool.setuptools.dynamic]
+version = { attr = "biotsr.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+# The element label table ships with the package and is loaded through
+# importlib.resources, never from the current working directory.
+biotsr = ["labels/resources/element_labels_v1.csv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: standard reference cases over the large structures",
+]
+# Slow reference cases are opt-in: `pytest -m slow` (or `-m ""` for everything).
+addopts = "-m 'not slow'"

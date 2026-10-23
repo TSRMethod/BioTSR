@@ -1,0 +1,59 @@
+# BioTSR release validation -- on demand, and for release tags.
+#
+# Everything ci.yml runs, plus what is too expensive to repeat per push or per
+# Python version: the slow standard reference cases over multi-million-triangle
+# structures, and the machine-readable release manifest that ties the source
+# tree to the built artifacts. One Python, once, on macOS arm64 -- the platform
+# the frozen triplet-file hashes were produced on.
+name: Release validation
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  release:
+    name: full suite, gates, artifacts and manifest (Python 3.13, macOS arm64)
+    runs-on: macos-15
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Install BioTSR, its test and plot extras and the build tools
+        run: python -m pip install ".[dev,plot]" build twine
+      - name: Full test suite, slow reference cases included
+        env:
+          BIOTSR_REQUIRE_EVIDENCE: "1"
+        run: python -m pytest -q -rs -m ""
+      - name: Capability matrix agrees with the method registry
+        run: python validation/scripts/capability_matrix.py --check
+      - name: No workstation path or account identifier in the tree
+        run: python validation/scripts/sanitize_tree.py --check
+      - name: Gates -- command line
+        run: python validation/scripts/gates_cli.py
+      - name: Gates -- API hardening and round trip
+        run: python validation/scripts/gates_api_hardening.py
+      - name: Gate evidence regenerates byte-identically
+        run: |
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+      - name: Build, inspect, twine-check, and clean-install each artifact
+        run: python validation/scripts/release_artifacts.py --dist-dir dist --json dist/RELEASE_ARTIFACTS.json
+      - name: Release manifest
+        run: python validation/scripts/release_manifest.py --output dist/RELEASE_CANDIDATE_MANIFEST.json
+      - uses: actions/upload-artifact@v6
+        with:
+          name: biotsr-release-validation
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30

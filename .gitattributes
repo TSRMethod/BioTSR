@@ -1,0 +1,12 @@
+# GitHub Linguist: what is source, and what is data.
+#
+# The gate evidence is generated, never hand-edited, so it is excluded from the
+# language statistics and collapsed in diffs. Nothing here changes a file; only
+# its classification.
+validation/evidence/**                linguist-generated=true
+
+# Unmodified RCSB PDB entries.
+*.pdb                                 linguist-vendored=true
+
+# The implementation and its scripts are source wherever they live.
+*.py                                  -linguist-generated -linguist-vendored linguist-detectable=true

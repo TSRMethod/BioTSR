@@ -1,0 +1,97 @@
+{
+  "argv": [
+    "run",
+    "--method",
+    "drug",
+    "--pdb",
+    "SYNPHOS.pdb",
+    "--chain",
+    "A",
+    "--entity-name",
+    "LIG",
+    "--entity-id",
+    "101",
+    "--sample-id",
+    "SYNPHOS_A_LIG101",
+    "--output",
+    "out",
+    "--no-triplets"
+  ],
+  "biotsr_version": "1.0.0rc6",
+  "command": "run",
+  "complete": true,
+  "label": null,
+  "method": "drug",
+  "parameters": {
+    "chain": "A",
+    "entity_id": "101",
+    "entity_name": "LIG",
+    "method": "drug",
+    "pdb": "SYNPHOS.pdb"
+  },
+  "per_residue": false,
+  "prefix": "SYNPHOS_A_LIG101",
+  "profile": {
+    "active": "standard_drug_v1",
+    "resolved": "standard_drug_v1",
+    "sse_strand_identity": null
+  },
+  "request": {
+    "chain": "A",
+    "cross": {},
+    "method": "drug",
+    "modifiers": {},
+    "per_residue": false,
+    "processing": {
+      "altloc_policy": "blank_or_a",
+      "input_rules": "input_rules_v2",
+      "modified_residue_policy": "hetatm_amino_acids:PTR,SEP,TPO"
+    },
+    "schema": 4,
+    "selection": {
+      "entity_id": "101",
+      "entity_name": "LIG"
+    },
+    "structure_id": "SYNPHOS",
+    "structure_sha256": "71e2eaf877e7d484bbdebf93fb8fbaa5eb878f95c032762c5ab8ef3bb838f1cd"
+  },
+  "request_sha256": "0e501aab2185af8e1ac8c9d036a640e9b04bb59312acd824607016f20b1f8b9c",
+  "results": [
+    {
+      "category_totals": {
+        "regular": 56
+      },
+      "chain": "A",
+      "counts": {
+        "ledger_balances": true,
+        "n_acos_clamped": 0,
+        "n_candidates": 56,
+        "n_degenerate": 0,
+        "n_filtered_by_size": 0,
+        "n_points": 8,
+        "n_triangles": 56,
+        "n_unique_keys": 46,
+        "n_valid_geometry": 56
+      },
+      "entity": "",
+      "file_bytes": {
+        "SYNPHOS_A_LIG101.keys": 943,
+        "SYNPHOS_A_LIG101.meta.json": 3383
+      },
+      "files": {
+        "keys": "SYNPHOS_A_LIG101.keys",
+        "metadata": "SYNPHOS_A_LIG101.meta.json"
+      },
+      "key_space_fingerprint": "1187735d9085815ee015c615a90215efce41daa5a7e3ee3e1005344340f4a8b6",
+      "n_warnings": 0,
+      "name": "SYNPHOS_A_LIG101",
+      "omissions": {},
+      "sampling_fingerprint": "158a8f785b6e5da0174f96a7adb5acd7873ae66f20cc2d07eb853af097d1cdab",
+      "structure_id": "SYNPHOS",
+      "target": "LIG_101",
+      "warnings": []
+    }
+  ],
+  "schema": 4,
+  "triplets": false
+}

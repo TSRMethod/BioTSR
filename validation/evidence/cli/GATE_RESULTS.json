@@ -1,0 +1,594 @@
+{
+  "by_category": {
+    "contract": {
+      "failed": 0,
+      "total": 39
+    },
+    "discovery": {
+      "failed": 0,
+      "total": 10
+    },
+    "equivalence": {
+      "failed": 0,
+      "total": 27
+    },
+    "safety": {
+      "failed": 0,
+      "total": 19
+    }
+  },
+  "gates": [
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_protein: 70300 triangles, 45349 keys, 2 files",
+      "name": "run/protein_calpha",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_protein_aagroup: 70300 triangles, 26395 keys, 2 files",
+      "name": "run/protein_calpha_grouped",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_protein_mirror: 70300 triangles, 51913 keys, 2 files",
+      "name": "run/protein_calpha_mirror",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_protein_size25: 60742 triangles, 37522 keys, 2 files",
+      "name": "run/protein_calpha_size_filter",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_protein_aagroup_mirror_size25: 60742 triangles, 26210 keys, 2 files",
+      "name": "run/protein_calpha_all_three_modifiers",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_protein_sse: 204156 triangles, 125263 keys, 2 files",
+      "name": "run/protein_calpha_sse",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_protein_aagroup_mirror_sse: 204156 triangles, 85684 keys, 2 files",
+      "name": "run/protein_calpha_sse_with_modifiers",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_aa_selection_res-10-30+54+70-72: 2300 triangles, 2183 keys, 2 files",
+      "name": "run/aa_selection",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_aa_selection_res-10-40_sse: 4495 triangles, 4318 keys, 2 files",
+      "name": "run/aa_selection_sse",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_amino_acid_atomic_LEU_15: 56 triangles, 46 keys, 2 files",
+      "name": "run/amino_acid_atomic",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_amino_acid_atom_selection_atoms-LEU15.CB+ILE13.CG1+VAL17.CG2+LYS11.NZ: 4 triangles, 4 keys, 2 files",
+      "name": "run/amino_acid_atom_selection",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_aa_ind_LEU: 59640 triangles, 2667 keys, 2 files",
+      "name": "run/aa_ind",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_aa_ind_mix_LEU+ILE: 341376 triangles, 3337 keys, 2 files",
+      "name": "run/aa_ind_mix",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1UBQ_A_aa_ind_specific_LEU15+ILE13+VAL17: 1771 triangles, 843 keys, 2 files",
+      "name": "run/aa_ind_specific",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "3PTB_A_drug_BEN_1: 84 triangles, 38 keys, 2 files",
+      "name": "run/drug",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "5WT9_A_carbohydrate_NAG_1: 364 triangles, 247 keys, 2 files",
+      "name": "run/carbohydrate",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "5WT9_A_carbohydrate_chain: 8436 triangles, 1444 keys, 2 files",
+      "name": "run/carbohydrate_chain",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BNA_A_nucleotide_DC_3: 969 triangles, 654 keys, 2 files",
+      "name": "run/nucleotide",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BNA_A_nucleotide_chain: 2362041 triangles, 7125 keys, 2 files",
+      "name": "run/nucleotide_chain",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_D_protein_protein_cross_cutoff4: 257985 triangles, 3841 keys, 2 files",
+      "name": "run/protein_protein_cross_all_atom",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_D_protein_protein_calpha_cross_cutoff8: 49140 triangles, 38141 keys, 2 files",
+      "name": "run/protein_protein_calpha_cross",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "3PTB_A_A_drug_protein_cross_BEN_1_cutoff4: 2430 triangles, 769 keys, 2 files",
+      "name": "run/drug_protein_cross",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_D_protein_protein_cross_cutoff3.7: 72283 triangles, 3545 keys, 2 files",
+      "name": "run/cross_arbitrary_cutoff",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "1BRS_A_D_protein_protein_cross_size12_cutoff4: 73034 triangles, 2125 keys, 2 files",
+      "name": "run/cross_size_filtered",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "75 residues, metadata identical",
+      "name": "per_entity_sweep_matches_analyze_entities",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "125263 keys, identical either way",
+      "name": "sse_annotation_changes_no_key_through_the_cli",
+      "passed": true
+    },
+    {
+      "category": "equivalence",
+      "detail": "18 categories",
+      "name": "sse_stratification_is_identical",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "2 calculations side by side, 4 files each, no subdirectory",
+      "name": "output_layout_is_one_shared_folder_of_prefixed_files",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1UBQ_A_protein.keys, 1UBQ_A_protein.meta.json, 1UBQ_A_protein.triplets",
+      "name": "filenames_come_from_the_native_serializer",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1UBQ_A_protein, 1UBQ_A_aa_ind_TYR+ARG",
+      "name": "output_prefixes_are_deterministic",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1UBQ_A_aa_selection_res-10-12+48+70-71; 1UBQ_a_protein_hf8be2eb131",
+      "name": "output_prefixes_are_portable",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "PDB_0123456789_A_protein; 121-character ids shortened and fingerprinted",
+      "name": "a_long_structure_id_survives",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "exit 2",
+      "name": "a_second_run_is_refused_by_default",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "stale triplets removed, an unrelated file kept",
+      "name": "overwrite_replaces_owned_files_and_keeps_every_other_file",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "refused under all 3 --if-exists policies",
+      "name": "a_file_biotsr_did_not_write_is_never_replaced",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "record and keys unchanged",
+      "name": "skip_leaves_the_existing_output_untouched",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "staged in .biotsr-staging-<token>/PREFIX, os.replace, nothing left behind",
+      "name": "writes_are_staged_and_moved_atomically",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "intent record, then 2 data files, then the complete record",
+      "name": "the_completion_record_is_written_last",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "exit 130; refused by run, analyze and describe; skip recomputed it",
+      "name": "an_incomplete_calculation_is_refused_until_recomputed",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "nothing created",
+      "name": "a_failed_run_creates_no_output_directory",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "working directory untouched",
+      "name": "nothing_is_written_outside_the_output_root",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "no command and `analyze` with no operation both return 2",
+      "name": "main_returns_a_code_and_never_raises_for_a_malformed_command",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "0=success, 1=unexpected internal error, 2=user, input or configuration error, 3=batch completed with failed samples, 4=completed, but some results are partial, 130=interrupted",
+      "name": "exit_codes_are_the_documented_six",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "3 rows, 1 ok, 2 failed",
+      "name": "batch_records_every_input_row",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "chain 'Q' is not in 1UBQ, so the selecti; unknown method 'wobble'",
+      "name": "every_batch_failure_carries_its_reason",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "exit 0, no failure report",
+      "name": "batch_exits_3_when_and_only_when_something_failed",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "stopped before computing; 3 rows recorded",
+      "name": "batch_stop_halts_at_the_first_failure",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "identical files and identical normalised requests",
+      "name": "a_batch_row_and_a_run_command_agree_byte_for_byte",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "method, profile, both fingerprints, strand identity, parameters, request",
+      "name": "provenance_survives_serialization",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "no unrequested parameter echoed back",
+      "name": "the_completion_record_records_only_what_the_user_specified",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1UBQ_A_protein",
+      "name": "describe_lists_the_calculations_of_a_folder",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "12 lines",
+      "name": "describe_reads_back_a_completion_record_by_its_prefix",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1UBQ_A_protein.meta.json",
+      "name": "describe_reads_back_a_native_sidecar",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "a wide row is refused, naming both columns",
+      "name": "the_manifest_is_long_not_wide",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "absent, not False",
+      "name": "a_blank_manifest_cell_is_not_a_default",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "named, not ignored",
+      "name": "an_unknown_manifest_column_is_refused",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "25 aliases, 29 canonical columns",
+      "name": "every_manifest_alias_targets_a_real_column",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "17490 common keys over 3 samples",
+      "name": "common_keys_matches_the_analysis_api",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "2 groups",
+      "name": "common_keys_groups_by_label",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "exit 3, no analysis written",
+      "name": "common_keys_refuses_to_answer_over_a_subset",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "13 requests from 8 rows listed, nothing written; no --method refused",
+      "name": "a_wide_sheet_dry_run_lists_every_request",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "1977 common keys, no warning",
+      "name": "common_keys_compares_lys_only_with_tyr_only_without_an_opt_in",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "refused naming size_filter; old flag refused; acknowledged and recorded",
+      "name": "a_processing_difference_is_refused_unless_acknowledged",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "plain vs mirror refused even with --allow-mixed-processing",
+      "name": "the_key_space_refusal_survives_allow_mixed_processing",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "an unlisted keys file and a modified one both refused",
+      "name": "the_analysis_refuses_a_keys_file_no_record_lists",
+      "passed": true
+    },
+    {
+      "category": "contract",
+      "detail": "analyze and describe both refuse it, naming the release candidate",
+      "name": "the_old_per_sample_layout_is_refused_by_name",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "20 methods",
+      "name": "tsr_methods_lists_every_registered_method",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "registry fields match one for one",
+      "name": "tsr_methods_is_generated_from_the_registry",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "standard_protein_calpha_v1",
+      "name": "each_method_describes_its_standard_profile",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "7 help screens",
+      "name": "help_exists_for_every_command",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "required, defaults and the standard profile all stated",
+      "name": "help_marks_required_arguments_and_defaults",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "no internal names leak",
+      "name": "help_uses_no_internal_terminology",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "29 examples parse",
+      "name": "every_example_in_the_main_help_parses",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "61 documented commands parse",
+      "name": "every_tsr_command_in_the_cli_guide_parses",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "all commands, exit codes, manifest, the standard profile and HPC covered",
+      "name": "the_cli_guide_documents_every_command_and_exit_code",
+      "passed": true
+    },
+    {
+      "category": "discovery",
+      "detail": "all four documented",
+      "name": "exit_codes_are_documented_in_the_help",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "20 methods default to standard",
+      "name": "the_standard_profile_is_the_default_everywhere",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "11 scientific flags, none with a CLI default",
+      "name": "the_cli_declares_no_scientific_default",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "no distance, angle, radix or bin count in the CLI",
+      "name": "the_cli_holds_no_numeric_scientific_constant",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "api, io, profiles and the registry only",
+      "name": "the_cli_imports_no_scientific_internal",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "every filename comes from biotsr.io",
+      "name": "the_cli_reimplements_no_serializer_filename",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "2 flags refused, nothing written",
+      "name": "the_cli_offers_no_profile_or_format_choice",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "18 of 20 methods refuse --sse by name",
+      "name": "sse_is_refused_outside_the_two_calpha_methods",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "18 of 20 methods refuse --aa-grouping",
+      "name": "aa_grouping_is_refused_outside_the_calpha_methods",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "0 and negatives refused",
+      "name": "a_nonpositive_size_filter_is_refused",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "0 and negatives refused",
+      "name": "a_nonpositive_contact_cutoff_is_refused",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "9 arbitrary cutoffs accepted",
+      "name": "any_positive_contact_cutoff_is_accepted",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "same KeySpace, different SamplingProfile",
+      "name": "the_contact_cutoff_is_sampling_not_keyspace",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "routed to different arguments",
+      "name": "the_size_filter_is_distinct_from_the_contact_cutoff",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "refused, and the available chains named",
+      "name": "an_empty_selection_is_refused_rather_than_written",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "14 error paths, all one line",
+      "name": "no_user_error_prints_a_traceback",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "20 methods, none deferred",
+      "name": "no_deferred_candidate_strategy_is_registered",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "sse on protein and aa_selection only",
+      "name": "no_atomic_or_cross_sse_is_reachable",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "standard library only, joblib in parallel.py, socket in output.py",
+      "name": "the_cli_adds_no_dependency",
+      "passed": true
+    },
+    {
+      "category": "safety",
+      "detail": "dependencies = joblib>=1.3 (ADR-086), entry point declared",
+      "name": "the_package_declares_only_joblib_as_a_dependency",
+      "passed": true
+    }
+  ],
+  "n_failed": 0,
+  "n_gates": 95
+}

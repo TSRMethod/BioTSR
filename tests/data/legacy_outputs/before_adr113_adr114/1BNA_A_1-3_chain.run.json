@@ -1,0 +1,90 @@
+{
+  "argv": [
+    "run",
+    "--method",
+    "nucleotide_chain",
+    "--pdb",
+    "1BNA_A_1-3.pdb",
+    "--chain",
+    "A",
+    "--sample-id",
+    "1BNA_A_1-3_chain",
+    "--output",
+    "out",
+    "--no-triplets"
+  ],
+  "biotsr_version": "1.0.0rc6",
+  "command": "run",
+  "complete": true,
+  "label": null,
+  "method": "nucleotide_chain",
+  "parameters": {
+    "chain": "A",
+    "method": "nucleotide_chain",
+    "pdb": "1BNA_A_1-3.pdb"
+  },
+  "per_residue": false,
+  "prefix": "1BNA_A_1-3_chain",
+  "profile": {
+    "active": "standard_nucleotide_chain_v1",
+    "resolved": "standard_nucleotide_chain_v1",
+    "sse_strand_identity": null
+  },
+  "request": {
+    "chain": "A",
+    "cross": {},
+    "method": "nucleotide_chain",
+    "modifiers": {},
+    "per_residue": false,
+    "processing": {
+      "altloc_policy": "blank_or_a",
+      "input_rules": "input_rules_v2",
+      "modified_residue_policy": "hetatm_amino_acids:PTR,SEP,TPO"
+    },
+    "schema": 4,
+    "selection": {},
+    "structure_id": "1BNA_A_1-3",
+    "structure_sha256": "f0888b7f91215e4317b724632cc98b8c049fc3e865377bfbf88e5816f49426de"
+  },
+  "request_sha256": "3e4ac17ef0f92517a37f139a634f032053cf7baf84060520922a874ad1cbaeed",
+  "results": [
+    {
+      "category_totals": {
+        "regular": 10660
+      },
+      "chain": "A",
+      "counts": {
+        "ledger_balances": true,
+        "n_acos_clamped": 0,
+        "n_candidates": 10660,
+        "n_degenerate": 0,
+        "n_filtered_by_size": 0,
+        "n_points": 41,
+        "n_triangles": 10660,
+        "n_unique_keys": 2462,
+        "n_valid_geometry": 10660
+      },
+      "entity": "",
+      "file_bytes": {
+        "1BNA_A_1-3_chain.keys": 49536,
+        "1BNA_A_1-3_chain.meta.json": 3715
+      },
+      "files": {
+        "keys": "1BNA_A_1-3_chain.keys",
+        "metadata": "1BNA_A_1-3_chain.meta.json"
+      },
+      "key_space_fingerprint": "1187735d9085815ee015c615a90215efce41daa5a7e3ee3e1005344340f4a8b6",
+      "n_warnings": 1,
+      "name": "1BNA_A_1-3_chain",
+      "omissions": {},
+      "sampling_fingerprint": "76b1b40c189ce852a06d1c10449690958b520b423e2f7e9d3a33a3a97218f9e9",
+      "structure_id": "1BNA_A_1-3",
+      "target": "A",
+      "warnings": [
+        "excluded by the method's completeness rule (1): 1_DC: DC: expected exactly 19 atoms, got 16"
+      ]
+    }
+  ],
+  "schema": 4,
+  "triplets": false
+}

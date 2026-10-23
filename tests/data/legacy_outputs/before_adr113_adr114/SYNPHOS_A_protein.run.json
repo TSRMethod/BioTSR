@@ -1,0 +1,88 @@
+{
+  "argv": [
+    "run",
+    "--method",
+    "protein",
+    "--pdb",
+    "SYNPHOS.pdb",
+    "--chain",
+    "A",
+    "--sample-id",
+    "SYNPHOS_A_protein",
+    "--output",
+    "out",
+    "--no-triplets"
+  ],
+  "biotsr_version": "1.0.0rc6",
+  "command": "run",
+  "complete": true,
+  "label": null,
+  "method": "protein",
+  "parameters": {
+    "chain": "A",
+    "method": "protein",
+    "pdb": "SYNPHOS.pdb"
+  },
+  "per_residue": false,
+  "prefix": "SYNPHOS_A_protein",
+  "profile": {
+    "active": "standard_protein_calpha_v1",
+    "resolved": "standard_protein_calpha_v1",
+    "sse_strand_identity": null
+  },
+  "request": {
+    "chain": "A",
+    "cross": {},
+    "method": "protein",
+    "modifiers": {},
+    "per_residue": false,
+    "processing": {
+      "altloc_policy": "blank_or_a",
+      "input_rules": "input_rules_v2",
+      "modified_residue_policy": "hetatm_amino_acids:CME,CSD,CSO,LLP,M3L,MSE,NIY,PTR,SEP,TPO,TRF;ca_element:C_or_blank"
+    },
+    "schema": 4,
+    "selection": {},
+    "structure_id": "SYNPHOS",
+    "structure_sha256": "71e2eaf877e7d484bbdebf93fb8fbaa5eb878f95c032762c5ab8ef3bb838f1cd"
+  },
+  "request_sha256": "1bf4858ad7fa629a0d7b9b3c18878a7b46d771633dfd83022e45f8e5730d9f80",
+  "results": [
+    {
+      "category_totals": {
+        "regular": 364
+      },
+      "chain": "A",
+      "counts": {
+        "ledger_balances": true,
+        "n_acos_clamped": 0,
+        "n_candidates": 364,
+        "n_degenerate": 0,
+        "n_filtered_by_size": 0,
+        "n_points": 14,
+        "n_triangles": 364,
+        "n_unique_keys": 359,
+        "n_valid_geometry": 364
+      },
+      "entity": "",
+      "file_bytes": {
+        "SYNPHOS_A_protein.keys": 6843,
+        "SYNPHOS_A_protein.meta.json": 3489
+      },
+      "files": {
+        "keys": "SYNPHOS_A_protein.keys",
+        "metadata": "SYNPHOS_A_protein.meta.json"
+      },
+      "key_space_fingerprint": "da39d73510c54a4c07529e17f34449789584fad4ea79b020b1badd3b5550d30b",
+      "n_warnings": 0,
+      "name": "SYNPHOS_A_protein",
+      "omissions": {},
+      "sampling_fingerprint": "866885436e9a02bbbd52eecfc8372be2191d80ea737a0da509a43d0f3d56511d",
+      "structure_id": "SYNPHOS",
+      "target": "A",
+      "warnings": []
+    }
+  ],
+  "schema": 4,
+  "triplets": false
+}

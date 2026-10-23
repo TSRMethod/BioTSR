@@ -1,0 +1,28 @@
+# Citation metadata for BioTSR (Citation File Format 1.2.0).
+#
+# BioTSR is not yet released: this file carries no release date and no DOI.
+# Both are added when 1.0 is released (docs/RELEASING.md, section 7). The
+# authors are the TSR Research Group, the authorship this repository records.
+cff-version: 1.2.0
+message: "If you use BioTSR in your research, please cite it using the metadata from this file."
+type: software
+title: "BioTSR"
+abstract: >-
+  BioTSR is the unified software implementation of the Triangular Spatial
+  Relationship (TSR) methodology. It computes TSR keys -- integers encoding the
+  shape and vertex labels of triangles drawn over a 3D structure -- for protein
+  C-alpha, atomic, ligand, carbohydrate, nucleotide and cross (two-sided) method
+  families on one shared scientific core, each under its standard profile.
+authors:
+  - name: "TSR Research Group"
+    website: "https://tsrmethod.github.io/"
+version: "1.0.0rc7"
+license: Apache-2.0
+repository-code: "https://github.com/TSRMethod/BioTSR"
+url: "https://tsrmethod.github.io/"
+keywords:
+  - "Triangular Spatial Relationship"
+  - "TSR"
+  - "protein structure"
+  - "structural bioinformatics"
+  - "PDB"

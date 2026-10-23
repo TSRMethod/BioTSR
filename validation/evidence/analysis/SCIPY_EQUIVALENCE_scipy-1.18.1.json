@@ -1,0 +1,42 @@
+{
+  "agreement": {
+    "ari_identical": true,
+    "fcluster_labels_identical": false,
+    "leaf_order_identical": false,
+    "linkage_identical": false,
+    "linkage_identical_without_ties": false,
+    "same_tree_labels_identical": false,
+    "same_tree_leaf_order_identical": true,
+    "same_tree_partitions_differ_only_where_scipy_misses_the_cut": true,
+    "same_tree_partitions_identical": true
+  },
+  "counters": {
+    "ari_checked": 400,
+    "ari_mismatch": 0,
+    "fcluster_checked": 9413,
+    "fcluster_mismatch": 695,
+    "leaf_order_checked": 400,
+    "leaf_order_mismatch": 12,
+    "linkage_checked": 400,
+    "linkage_mismatch": 177,
+    "own_tree_fcluster_checked": 9413,
+    "own_tree_fcluster_mismatch": 380,
+    "own_tree_leaf_order_mismatch": 0,
+    "own_tree_partition_mismatch": 0,
+    "own_tree_partition_mismatch_scipy_over_delivered": 0,
+    "own_tree_partition_mismatch_scipy_under_delivered": 0,
+    "tie_free_fcluster_mismatch": 33,
+    "tie_free_leaf_order_mismatch": 0,
+    "tie_free_linkage_mismatch": 2,
+    "tie_free_trials": 50,
+    "tie_heavy_trials": 134,
+    "trials": 400
+  },
+  "known_divergences": [],
+  "n_known_divergence_occurrences": 0,
+  "platform": "macOS-26.7-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2 (main, Feb  4 2025, 14:51:09) [Clang 16.0.0 (clang-1600.0.26.6)]",
+  "scipy": "1.18.1",
+  "sklearn": "1.9.1",
+  "verdict": "claims hold"
+}

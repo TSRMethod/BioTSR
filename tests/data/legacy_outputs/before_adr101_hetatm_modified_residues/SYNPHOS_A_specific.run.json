@@ -1,0 +1,89 @@
+{
+  "argv": [
+    "run",
+    "--method",
+    "aa_ind_specific",
+    "--pdb",
+    "SYNPHOS.pdb",
+    "--chain",
+    "A",
+    "--residues",
+    "SER_4;TPO_3;TYR_6",
+    "--sample-id",
+    "SYNPHOS_A_specific",
+    "--output",
+    "out",
+    "--no-triplets"
+  ],
+  "biotsr_version": "1.0.0rc4",
+  "command": "run",
+  "complete": true,
+  "label": null,
+  "method": "aa_ind_specific",
+  "parameters": {
+    "chain": "A",
+    "method": "aa_ind_specific",
+    "pdb": "SYNPHOS.pdb",
+    "residues": "SER_4;TPO_3;TYR_6"
+  },
+  "per_residue": false,
+  "prefix": "SYNPHOS_A_specific",
+  "profile": {
+    "active": "standard_aminoacid_type_v1",
+    "resolved": "standard_aminoacid_type_v1",
+    "sse_strand_identity": null
+  },
+  "request": {
+    "chain": "A",
+    "cross": {},
+    "method": "aa_ind_specific",
+    "modifiers": {},
+    "per_residue": false,
+    "schema": 4,
+    "selection": {
+      "residues": "SER_4;TPO_3;TYR_6"
+    },
+    "structure_id": "SYNPHOS",
+    "structure_sha256": "71e2eaf877e7d484bbdebf93fb8fbaa5eb878f95c032762c5ab8ef3bb838f1cd"
+  },
+  "request_sha256": "745180bab77ab7a84c1a1ac2a6d5ade0e0c2a8091e583e19d08de8fa9c855e85",
+  "results": [
+    {
+      "category_totals": {
+        "regular": 816
+      },
+      "chain": "A",
+      "counts": {
+        "ledger_balances": true,
+        "n_acos_clamped": 0,
+        "n_candidates": 816,
+        "n_degenerate": 0,
+        "n_filtered_by_size": 0,
+        "n_points": 18,
+        "n_triangles": 816,
+        "n_unique_keys": 457,
+        "n_valid_geometry": 816
+      },
+      "entity": "",
+      "file_bytes": {
+        "SYNPHOS_A_specific.keys": 9164,
+        "SYNPHOS_A_specific.meta.json": 5494
+      },
+      "files": {
+        "keys": "SYNPHOS_A_specific.keys",
+        "metadata": "SYNPHOS_A_specific.meta.json"
+      },
+      "key_space_fingerprint": "1187735d9085815ee015c615a90215efce41daa5a7e3ee3e1005344340f4a8b6",
+      "n_warnings": 1,
+      "name": "SYNPHOS_A_specific",
+      "sampling_fingerprint": "d40499d0431a615c00551b69ac16874abc8f4d6393c824ea3a7475288350bdf8",
+      "structure_id": "SYNPHOS",
+      "target": "SER_4;TPO_3;TYR_6",
+      "warnings": [
+        "requested but not found: TPO_3"
+      ]
+    }
+  ],
+  "schema": 4,
+  "triplets": false
+}
