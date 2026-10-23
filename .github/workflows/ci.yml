@@ -1,8 +1,9 @@
 # BioTSR continuous integration -- runs on every push and pull request.
 #
-#   tests    the default test suite on every supported Python on Linux, and once
-#            on macOS arm64. This is the evidence behind the Python classifiers
-#            in pyproject.toml. Standard results are compared against frozen
+#   tests    the default test suite on every supported Python on Linux and on
+#            macOS arm64, and once more on each with the plot extra. This is the
+#            evidence behind the Python and operating-system classifiers in
+#            pyproject.toml. Standard results are compared against frozen
 #            references (tests/data/reference): keys files by SHA-256 everywhere,
 #            triplet files byte for byte on macOS arm64, where their raw
 #            floating-point geometry was produced.
@@ -42,16 +43,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04]
+        os: [ubuntu-24.04, macos-15]
         python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
         extras: ["dev"]
         include:
-          - os: macos-15
-            python-version: "3.13"
-            extras: "dev"
           # The optional figure: the plot extra must supply everything the
           # renderer needs, and the tutorial's drawing steps must run.
           - os: ubuntu-24.04
+            python-version: "3.13"
+            extras: "dev,plot"
+          - os: macos-15
             python-version: "3.13"
             extras: "dev,plot"
     steps:

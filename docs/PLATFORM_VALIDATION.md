@@ -2,7 +2,7 @@
 
 BioTSR is supported on **Linux and macOS**; Windows is not supported (the
 package is not tested there). Continuous integration runs the test
-suite on Linux for every supported Python and on macOS arm64 (see
+suite for every supported Python on Linux and on macOS arm64 (see
 [RELEASING.md](RELEASING.md)). This page states what is identical on every
 platform, what may differ, and how the test suite compares results.
 

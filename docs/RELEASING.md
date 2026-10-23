@@ -58,7 +58,8 @@ because HPC environments often lag; dropping it is a minor-release decision.
 
 **The `plot` extra** (`matplotlib>=3.5`) was checked locally with matplotlib
 3.5.3 on Python 3.9 and 3.11.2 on Python 3.13; CI runs it with the newest
-matplotlib on Python 3.13. Nothing else in BioTSR imports a plotting library.
+matplotlib on Python 3.13 on Linux and on macOS. Nothing else in BioTSR imports
+a plotting library.
 
 ## 3. CI
 
@@ -68,7 +69,7 @@ Two workflows under `.github/workflows/`.
 
 | job | what |
 |---|---|
-| `tests` | installs `.[dev]` and runs the default test suite (`pytest -q -rs`) on Python 3.9–3.13 on Ubuntu, and on Python 3.13 on macOS arm64, and once more with `.[dev,plot]` on Python 3.13 on Ubuntu so the figure tests and the tutorial's drawing steps run, with `BIOTSR_REQUIRE_EVIDENCE=1`, so that tracked evidence that is missing fails instead of skipping; then requires `git status` to be empty. Standard results are compared against `tests/data/reference/`: keys files by SHA-256 on every platform, triplet files by SHA-256 on macOS arm64 |
+| `tests` | installs `.[dev]` and runs the default test suite (`pytest -q -rs`) on Python 3.9–3.13 on Ubuntu and on macOS arm64, and once more with `.[dev,plot]` on Python 3.13 on each so the figure tests and the tutorial's drawing steps run, with `BIOTSR_REQUIRE_EVIDENCE=1`, so that tracked evidence that is missing fails instead of skipping; then requires `git status` to be empty. Standard results are compared against `tests/data/reference/`: keys files by SHA-256 on every platform, triplet files by SHA-256 on macOS arm64 |
 | `gates` | on Python 3.13, Ubuntu: `capability_matrix.py --check` (the capability matrix matches the method registry), `sanitize_tree.py --check` (no workstation path or account identifier in the tree), `gates_cli.py` and `gates_api_hardening.py`; then requires `git status` to be empty, so committed gate evidence regenerates byte-identically |
 | `package` | on Python 3.12, Ubuntu: `release_artifacts.py` builds the wheel and sdist, inspects their contents and metadata, runs the unpacked sdist's own test suite, runs `twine check`, and installs each artifact into a clean environment outside the checkout for the clean-environment checks; the built artifacts are uploaded |
 

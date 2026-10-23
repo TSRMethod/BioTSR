@@ -35,7 +35,7 @@ Two kinds of item:
 
 - [ ] Version set once, in `biotsr.__version__` *(automated: the packaging tests)*
 - [ ] `ci.yml` green on the release commit: every `tests` matrix job (Linux
-      Python 3.9–3.13, macOS arm64 Python 3.13), `gates` and `package`
+      and macOS arm64, Python 3.9–3.13 on each), `gates` and `package`
       *(automated)*
 - [ ] `release-validation.yml` green on the release commit (macOS arm64: the
       full suite including slow reference cases, the gates, the artifacts and

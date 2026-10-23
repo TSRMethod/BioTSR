@@ -82,9 +82,8 @@ the method registry — says exactly which method supports what.
 ## Installation
 
 BioTSR supports CPython 3.9–3.13 on Linux and macOS. CI runs the full default
-test suite on 3.9–3.13 on Linux and on 3.13 on macOS (arm64); 3.9–3.12 on macOS
-were also run locally during release preparation. Windows is not supported (it
-is neither tested nor validated). An ordinary
+test suite on each of 3.9–3.13 on Linux and on macOS (arm64). Windows is not
+supported (it is neither tested nor validated). An ordinary
 installation brings its one runtime dependency, joblib, which runs batch rows in
 parallel; the scientific core itself uses only the standard library.
 
