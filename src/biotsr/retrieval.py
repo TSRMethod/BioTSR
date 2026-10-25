@@ -173,9 +173,13 @@ PDB_FORMAT_UNAVAILABLE = "pdb_format_unavailable"
 INVALID_ID = "invalid_id"
 REFRESH_FAILED = "refresh_failed"
 FAILED = "failed"
-#: Ctrl-C or SIGTERM arrived while this id was being fetched, or before it was.
+#: Ctrl-C or SIGTERM arrived while this id was being fetched: its work had
+#: begun and was stopped, and nothing of it was installed.
 INTERRUPTED = "interrupted"
+#: Ctrl-C or SIGTERM arrived before this id's fetch began: nothing was done for
+#: it -- no request, and no look at the cache.
 NOT_STARTED = "not_started"
+_NOT_STARTED_MESSAGE = "not fetched: the run was interrupted first"
 
 #: After these, a valid file is at ``record.path``.  ``refresh_failed`` keeps the
 #: previous valid file, so it is usable, but the run is still reported as failed.
@@ -835,6 +839,11 @@ class _Fetcher(object):
         return "%s/%s%s" % (self.base_url, pdb_id, suffix)
 
     def fetch(self, requested: str, pdb_id: str) -> FetchRecord:
+        if self.cancel.is_set():
+            # Taken from the queue after the cancellation (a worker freed just
+            # as it arrived): this id does not start.
+            return FetchRecord(pdb_id, requested, NOT_STARTED,
+                               message=_NOT_STARTED_MESSAGE)
         record = FetchRecord(pdb_id=pdb_id, requested=requested, status=FAILED)
         existing = cached_structure_path(self.pdb_dir, pdb_id)
         if existing and not self.refresh:
@@ -1162,8 +1171,12 @@ def fetch_structures(
             # queued ids never start, a connection being made is abandoned and a
             # request in flight has its socket shut down. Only name resolution
             # and a TLS handshake step are waited for (module docstring).
+            # The queued ids are cancelled first, while every worker is still
+            # busy: stopping the requests in flight frees their workers, which
+            # would otherwise take the next queued id before it is cancelled.
+            pool.shutdown(wait=False, cancel_futures=True)
             fetcher.stop()
-            pool.shutdown(wait=True, cancel_futures=True)
+            pool.shutdown(wait=True)
             records = []
             for requested, pdb_id in wanted:
                 if pdb_id in results:
@@ -1181,7 +1194,7 @@ def fetch_structures(
                 else:
                     records.append(FetchRecord(
                         pdb_id, requested, NOT_STARTED,
-                        message="not fetched: the run was interrupted first"))
+                        message=_NOT_STARTED_MESSAGE))
             raise FetchInterrupted(FetchReport(records + invalid)) from None
         except BaseException:
             fetcher.stop()

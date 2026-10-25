@@ -95,4 +95,10 @@ again, and outputs in the earlier per-sample directory layout are not read.
 What changed from one pre-release build to the next is recorded in
 [docs/PRE_RELEASE_CHANGES.md](https://github.com/TSRMethod/BioTSR/blob/main/docs/PRE_RELEASE_CHANGES.md).
 
+Besides its version and release metadata, 1.0.0 corrects one thing in the last
+pre-release build: when a download run (`biotsr fetch`, `--download-missing`)
+is interrupted, an identifier that was still queued is reported `not_started`,
+as documented. The worker that the cancellation freed could take it up first,
+and it was then reported `interrupted` although nothing was requested for it.
+
 [1.0.0]: https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0

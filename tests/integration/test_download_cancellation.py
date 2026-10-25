@@ -20,6 +20,7 @@ the timeout doing the work.
 
 from __future__ import annotations
 
+import concurrent.futures
 import csv
 import hashlib
 import os
@@ -190,6 +191,77 @@ def test_queued_identifiers_never_start(tmp_path, archive):
         "1AAA": "interrupted", "1AAB": "not_started", "1AAC": "not_started"}
     time.sleep(0.3)
     assert set(archive.hits) == {"/download/1AAA.pdb.gz"}
+
+
+class _SlowShutdownPool(concurrent.futures.ThreadPoolExecutor):
+    """A pool whose shutdown starts late, as on a busy machine: long enough for
+    a worker freed by the cancellation to take the next queued id first."""
+
+    def shutdown(self, wait=True, **kwargs):
+        time.sleep(0.5)
+        super().shutdown(wait=wait, **kwargs)
+
+
+def _interrupted_once_downloading(archive):
+    """Stands in for ``as_completed``: the main thread is interrupted (as by
+    Ctrl-C or SIGTERM) once a download is in flight."""
+    def as_completed(futures, timeout=None):
+        assert _wait_for(lambda: archive.active > 0), "no download started"
+        raise KeyboardInterrupt
+        yield  # pragma: no cover -- a generator, like the original
+    return as_completed
+
+
+def test_a_worker_freed_by_the_cancellation_starts_no_queued_id(
+        tmp_path, archive, monkeypatch):
+    """Regression: the cancellation stopped the request in flight before it
+    cancelled the queued ids, so the worker it freed could take the next id
+    first.  That id made no request but was reported ``interrupted``.  Here the
+    pool's shutdown is held back, so a freed worker always gets that chance:
+    the queued id must still not start -- no request, no file -- and be
+    reported ``not_started``, and the one in flight ``interrupted``."""
+    from biotsr import retrieval
+
+    archive.serve("1AAA", {"status": 200, "body": _gz(_entry("1AAA")), "delay": 60})
+    archive.ok("1AAB")
+    monkeypatch.setattr(retrieval.concurrent.futures, "ThreadPoolExecutor",
+                        _SlowShutdownPool)
+    monkeypatch.setattr(retrieval.concurrent.futures, "as_completed",
+                        _interrupted_once_downloading(archive))
+    pdb = tmp_path / "pdb"
+    started = time.time()
+    with pytest.raises(retrieval.FetchInterrupted) as caught:
+        biotsr.fetch_structures(["1AAA", "1AAB"], str(pdb), workers=1, timeout=30,
+                                base_url=archive.base)
+    assert time.time() - started < PROMPT
+    records = caught.value.report.by_id()
+    assert {k: r.status for k, r in records.items()} == {
+        "1AAA": "interrupted", "1AAB": "not_started"}
+    assert records["1AAB"].message == "not fetched: the run was interrupted first"
+    time.sleep(0.3)
+    assert set(archive.hits) == {"/download/1AAA.pdb.gz"}
+    assert os.listdir(str(pdb)) == []
+
+
+def test_an_id_taken_up_after_the_cancellation_does_nothing(tmp_path, archive):
+    """However a worker comes to take an id after the cancellation -- one
+    whose own download finished just as it arrived, say -- that id does not
+    start: no request, no look at the cache, ``not_started``."""
+    from biotsr import retrieval
+
+    archive.ok("1AAB")
+    pdb = tmp_path / "pdb"
+    pdb.mkdir()
+    (pdb / "1AAB.pdb").write_text("not a valid cached file\n")
+    fetcher = retrieval._Fetcher(str(pdb), timeout=30, retries=0, refresh=False,
+                                 base_url=archive.base, backoff=1.0)
+    fetcher.stop()
+    record = fetcher.fetch("1aab", "1AAB")
+    assert (record.pdb_id, record.requested, record.status) == (
+        "1AAB", "1aab", "not_started")
+    assert record.message == "not fetched: the run was interrupted first"
+    assert (record.path, record.url, record.attempts) == ("", "", 0)
+    assert archive.hits == {}
 
 
 def test_a_finished_download_is_reported_as_finished(tmp_path, archive):

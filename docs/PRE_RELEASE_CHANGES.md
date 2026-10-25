@@ -9,9 +9,10 @@ says what changed and which results must be computed again. "Below" and
 "above" refer to this page.
 
 What 1.0.0 provides is in the [changelog](../CHANGELOG.md). It differs from
-1.0.0rc7 only in its version and its release metadata — keys, label tables,
-fingerprints, output formats and every rule are those of 1.0.0rc7, so
-1.0.0rc7 results are reused and compared as they are. Which results of earlier
+1.0.0rc7 in its version and its release metadata, and in one correction to how
+an interrupted download reports the identifiers still queued (the changelog
+says how). Keys, label tables, fingerprints, output formats and every rule are
+those of 1.0.0rc7, so 1.0.0rc7 results are reused and compared as they are. Which results of earlier
 candidates 1.0.0 refuses, and why, is also stated in the
 [known limitations](KNOWN_LIMITATIONS.md).
 

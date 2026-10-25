@@ -248,8 +248,10 @@ def test_a_signal_while_downloading_writes_both_reports(tmp_path, slow_archive, 
     assert all("downloading" in r["message"] for r in summary.values())
     with open(out / "fetch_report.csv") as fh:
         fetched = {r["pdb_id"]: r["status"] for r in csv.DictReader(fh)}
-    assert set(fetched) == {"1AAA", "1AAB", "1AAC"}
-    assert set(fetched.values()) <= {"interrupted", "not_started"}
+    # One download worker: the first id is in flight, the others are queued
+    # and never start (test_download_cancellation.py).
+    assert fetched == {"1AAA": "interrupted", "1AAB": "not_started",
+                       "1AAC": "not_started"}
     assert not (out / ".biotsr-batch.lock").exists()
     assert not pdb_dir.exists() or not [
         n for n in os.listdir(pdb_dir) if n.endswith(".pdb")]
