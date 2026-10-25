@@ -246,7 +246,7 @@
     },
     {
       "category": "round_trip",
-      "detail": "2 vs 1.0.0rc7",
+      "detail": "2 vs 1.0.0",
       "name": "the_schema_version_is_not_the_package_version",
       "passed": true
     },

@@ -13,12 +13,15 @@ illustrative, they are tested.
 ## 1. Install
 
 ```bash
-pip install .                                       # from a clone of https://github.com/TSRMethod/BioTSR
-pip install dist/biotsr-1.0.0rc7-py3-none-any.whl   # or from a built wheel
+pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"   # the 1.0.0 release, from GitHub
+pip install .                                                         # from a clone of https://github.com/TSRMethod/BioTSR
 ```
 
-`pip install biotsr` will be the installation once 1.0 is published on PyPI;
-it is not yet. That is the whole installation, parallel execution included.  The package has
+The release's wheel and source distribution are also attached to the
+[1.0.0 release](https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0), and
+`pip install biotsr` installs it from PyPI once
+<https://pypi.org/project/biotsr/> lists version 1.0.0.  That is the whole
+installation, parallel execution included.  The package has
 one third-party dependency, joblib, which runs batch rows in worker processes
 when `--jobs` asks for more than one (ADR-086); the calculation itself uses only
 the standard library — no pandas, no numpy, no scipy, no BioPython — so it
@@ -84,7 +87,7 @@ counts: the sidecar records the full bin definitions.  Nothing else in the
 folder is touched, so a second calculation simply adds its own files next to
 these.
 
-Outputs written by 1.0.0rc3 or earlier — one directory per sample, with
+Outputs written by early pre-release builds — one directory per sample, with
 `run.json` inside and names such as `1UBQ_A.keys_29_35` — are not read by this
 version: `describe`, `analyze --from-results` and `biotsr.load_result` refuse
 them with a message saying so.  Recompute them.
@@ -1168,9 +1171,9 @@ record holds the rules it was computed under (`request.processing`):
                "input_rules": "input_rules_v2", "modified_residue_policy": "hetatm_amino_acids:PTR,SEP,TPO"}
 ```
 
-That is `aa_ind_specific`'s.  The input rules (`input_rules_v2`) are recorded
-since 1.0.0rc6 (ADR-108), and a method's completeness rule since 1.0.0rc7
-(ADR-114) — a method without one, such as every Cα method, records none.  The
+That is `aa_ind_specific`'s.  The input rules (`input_rules_v2`, ADR-108) and a
+method's completeness rule (ADR-114) are recorded too — a method without a
+completeness rule, such as every Cα method, records none.  The
 Cα methods read more modified residues (ADR-107), so their records hold
 `"modified_residue_policy": "hetatm_amino_acids:CME,CSD,CSO,LLP,M3L,MSE,NIY,PTR,SEP,TPO,TRF;ca_element:C_or_blank"`.
 
@@ -1179,12 +1182,13 @@ package version is not used for this, because one version number has covered
 more than one rule set.  A record that does not state them is never taken to
 be current: in a batch the request is `failed` (exit 3) with this message,
 and `biotsr run` stops with it (exit 2).  `skip` also requires each result's key space
-to be the one this version computes for the request, so a Cα output written
-before 1.0.0rc5 — radix 20, no modified residues — and every atomic output
-written before 1.0.0rc7 — atoms labelled by name (ADR-113) — is refused with
+to be the one this version computes for the request, so a Cα output of a
+pre-release build at radix 20, without modified residues, and an atomic output
+of a pre-release build that labelled atoms by name (ADR-113) are refused with
 `its keys were computed in a different key space (…)` and recomputed only with
 `--if-exists overwrite`; when the processing rules differ too, both reasons
-are given, key space first.  A Cα output of 1.0.0rc5 or rc6 is kept.  Here
+are given, key space first.  An output whose key space and processing rules
+are this version's is kept, whichever build wrote it.  Here
 `old/` holds an atomic output written by an earlier build, before the
 processing rules were recorded:
 
@@ -1470,8 +1474,8 @@ and loaded results alike:
    from method names, so methods that share a key space compare (every atomic
    method — `aa_ind`, `drug`, `carbohydrate`, … — labels atoms by element in 29 ×
    18 bins), and the same method with `--mirror` or `--aa-grouping` does not.
-   A Cα result written before 1.0.0rc5 (residue labels at radix 20), or an
-   atomic result written before 1.0.0rc7 (atoms labelled by name), has a
+   A Cα result of a pre-release build with residue labels at radix 20, or an
+   atomic result of a pre-release build that labelled atoms by name, has a
    different key space from a current one, so the two are never compared:
    compute it again (ADR-107, ADR-113).  No option relaxes this — neither
    `--allow-mixed-processing` nor `--allow-partial`.
@@ -1562,8 +1566,9 @@ analysis   a/analysis/common_keys
 
 In Python every analysis function takes `allow_mixed_processing=True` and
 `allow_partial=True`.  `--allow-mixed-processing` was called
-`--allow-mixed-sampling` (`allow_mixed_sampling=` in Python) in 1.0.0rc3,
-where selections needed it too; the old flag now stops with an error naming
+`--allow-mixed-sampling` (`allow_mixed_sampling=` in Python) in early
+pre-release builds, where selections needed it too; the old flag now stops
+with an error naming
 the new one.
 
 ### Analysing results you already computed
@@ -1588,7 +1593,7 @@ The folder is searched recursively for **completion records**
 among them) and `analysis/` folders are never read.  An incomplete record, a
 listed file that is missing or no longer has its recorded size, and a `.keys`
 file that no complete record lists are each refused by name, so an incomplete
-output is never analysed.  Results in the layout of 1.0.0rc3 or earlier
+output is never analysed.  Results in the layout of early pre-release builds
 (per-sample directories, names like `1UBQ_A.keys_29_35`) are refused with a
 message saying they must be recomputed.
 
@@ -1662,7 +1667,7 @@ biotsr describe results/1UBQ_A_protein
 
 ```
 command          biotsr run
-biotsr version   1.0.0rc7
+biotsr version   1.0.0
 method           protein
 prefix           1UBQ_A_protein
 complete         True
@@ -1696,9 +1701,9 @@ loaded = biotsr.load_result("results/1UBQ_A_protein.keys")
 Every result this version writes can be loaded this way.  It restores every
 key, both identity fingerprints, the profile that produced the result and the
 SSE annotation provenance.  Triplet records and first-seen key order are
-deliberately not restored, and the object says so.  Results written by
-1.0.0rc3 or earlier are refused, with a message saying they must be
-recomputed.  See [`API_GUIDE.md`](API_GUIDE.md) §4.
+deliberately not restored, and the object says so.  Results in the
+per-sample layout of early pre-release builds are refused, with a message
+saying they must be recomputed.  See [`API_GUIDE.md`](API_GUIDE.md) §4.
 
 ---
 

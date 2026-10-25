@@ -21,11 +21,12 @@ is, see `ARCHITECTURE.md` and `architecture/DECISIONS.md` — but not for this.
 ## Install
 
 ```bash
-pip install .                                       # from a clone of https://github.com/TSRMethod/BioTSR
-pip install dist/biotsr-1.0.0rc7-py3-none-any.whl   # or from a built wheel
+pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"   # the 1.0.0 release, from GitHub
+pip install .                                                         # from a clone of https://github.com/TSRMethod/BioTSR
 ```
 
-`pip install biotsr` will work once 1.0 is published on PyPI; it is not yet.
+`pip install biotsr` installs the same release from PyPI once
+<https://pypi.org/project/biotsr/> lists version 1.0.0.
 Python 3.9 or later, on Linux or macOS. The installation brings one third-party dependency,
 joblib, used only to run batch rows in parallel; the calculation itself uses the
 standard library alone.
@@ -165,7 +166,7 @@ calpha.source.modified_residue_policy
 biotsr.api.processing_identity("protein")["modified_residue_policy"]   # the same
 ```
 
-Cα results computed before 1.0.0rc5 (radix 20, no modified residues) have
+Cα results of pre-release builds at radix 20 (no modified residues) have
 another key space, so no analysis combines them with current ones: compute
 them again.
 
@@ -186,8 +187,8 @@ labels.resolve_atom("X1", "X")       # None: an unknown element has no label
 labels.label_source, labels.resolver # ('element', 'element_field_v1')
 ```
 
-Both enter the scheme's content fingerprint, so atomic results computed before
-1.0.0rc7, when atoms were labelled by name (`atom_lexicon_standard_112`), are
+Both enter the scheme's content fingerprint, so atomic results of pre-release
+builds that labelled atoms by name (`atom_lexicon_standard_112`) are
 in another key space and are never combined with current ones — compute them
 again. `biotsr.labels.elements.parse_element_labels(text)` validates a table in
 the same format (header, two fields, chemical-case symbols, positive labels,
@@ -239,7 +240,8 @@ calpha.source.input_rules                                  # 'input_rules_v2'
 biotsr.api.processing_identity("protein")["input_rules"]   # the same
 ```
 
-A result written by 1.0.0rc5 or earlier records none (`None`, *not recorded*):
+A result of a pre-release build written before the input rules were recorded
+holds none (`None`, *not recorded*):
 it is not reused by `--if-exists skip`, and comparing it with a current result
 needs `allow_mixed_processing=True`.
 
@@ -395,7 +397,7 @@ per-triangle records.
 
 **The reader refuses rather than guesses.** A sidecar with no
 `result_schema_version` (a sidecar from before the native format was versioned), a version from
-the future, a file written by 1.0.0rc3 or an earlier release candidate (schema 1,
+the future, a file in the per-sample layout of an early pre-release build (schema 1,
 `*.keys_29_35` names: recompute it), a truncated or reordered keys file, a sidecar whose stated
 fingerprint does not recompute from its own contents, or a keys file paired with
 a *different* result's sidecar — each raises with the mismatch named:

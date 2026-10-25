@@ -98,7 +98,7 @@ from .profiles.standard import STANDARD_PROTEIN_CALPHA_V1, Profile
 from .retrieval import FetchRecord, FetchReport, fetch_structures
 from .sse.stratification import IncompatibleSSEStratification
 
-__version__ = "1.0.0rc7"
+__version__ = "1.0.0"
 
 __all__ = [
     "analysis",

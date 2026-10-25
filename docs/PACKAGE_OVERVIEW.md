@@ -2,7 +2,7 @@
 
 **BioTSR is the unified software implementation of the Triangular Spatial Relationship (TSR) methodology.**  It is developed by the **TSR Research Group** (<https://tsrmethod.github.io/>).
 
-This page describes BioTSR **1.0.0rc5**, a release candidate of 1.0.0.
+This page describes BioTSR **1.0.0**.
 
 Its shared scientific core is the **TSR Engine**: one geometry, encoding, labelling and candidate layer that every method runs on.
 
@@ -54,9 +54,9 @@ the package imports it.
 ## Install
 
 ```bash
-pip install .                                     # from a clone of https://github.com/TSRMethod/BioTSR
-pip install dist/biotsr-1.0.0rc5-py3-none-any.whl  # or from a built wheel
-pip install biotsr                                # from PyPI, once published
+pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"   # the 1.0.0 release, from GitHub
+pip install .                                                         # from a clone of https://github.com/TSRMethod/BioTSR
+pip install biotsr                                                    # from PyPI, once https://pypi.org/project/biotsr/ lists 1.0.0
 ```
 
 One third-party dependency, joblib, for parallel batches (ADR-086); the
@@ -278,7 +278,7 @@ modified residues (TPO, SEP, PTR, NIY, M3L, TRF, CSO, LLP, CME, CSD with codes
 of their own, MSE with methionine's), 30 codes at radix 30, read from `HETATM`
 records when the CA atom's element is carbon or blank; any other modified
 residue, and a supported one without a readable Cα, is named as
-`not represented:` with the reason (ADR-107). Cα results computed before 1.0.0rc5
+`not represented:` with the reason (ADR-107). Cα results of pre-release builds
 were encoded at radix 20 and must be computed again.
 
 ### Drug, carbohydrate and nucleotide TSR

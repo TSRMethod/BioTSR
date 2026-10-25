@@ -16,7 +16,14 @@ requires-python = ">=3.9"
 # ship in the wheel and the sdist.
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
-authors = [{ name = "TSR Research Group" }]
+# The software's authors, in the order CITATION.cff gives them (a test compares
+# the two lists); the research group maintains the package.
+authors = [
+    { name = "Poorya Khajouie" },
+    { name = "Krishna Rauniyar" },
+    { name = "Vijay V. Raghavan" },
+    { name = "Wu Xu" },
+]
 maintainers = [{ name = "TSR Research Group" }]
 keywords = [
     "TSR",
@@ -31,7 +38,7 @@ keywords = [
 # Python versions are listed only where the full test suite has actually been
 # run and passed (docs/RELEASING.md, "Python support policy").
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
     "Intended Audience :: Science/Research",
     "Operating System :: MacOS",

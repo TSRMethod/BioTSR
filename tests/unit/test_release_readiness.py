@@ -125,7 +125,8 @@ def test_no_current_document_points_at_the_retired_future_layout():
                 "docs/REPRODUCIBILITY_NOTE.md",
                 "docs/PACKAGE_OVERVIEW.md", "docs/KNOWN_LIMITATIONS.md", "docs/RELEASING.md",
                 "docs/CAPABILITY_MATRIX.md", ".github/workflows/ci.yml",
-                ".github/workflows/release-validation.yml"]:
+                ".github/workflows/release-validation.yml",
+                ".github/workflows/publish.yml"]:
         path = os.path.join(WORKSPACE, rel)
         if os.path.exists(path) and re.search(r"future/(biotsr|tsr)|pip install future",
                                               open(path, encoding="utf-8").read()):
@@ -260,11 +261,20 @@ def test_the_citation_file_states_only_verified_metadata():
         assert not re.search(r"^date-released:", text, re.M)
     if not os.path.exists(os.path.join(WORKSPACE, "LICENSE")):
         assert not re.search(r"^license:", text, re.M)
-    # The citation and the package metadata name the same authors and licence.
+    # The citation and the package metadata name the same authors, in the same
+    # order, and the same licence.  A citation author is a person (given and
+    # family names) or an entity (name).
     project = _read("pyproject.toml")
     authors = re.findall(r'\{ name = "([^"]+)" \}', project.split("authors = [", 1)[1]
                          .split("]", 1)[0])
-    assert re.findall(r'^  - name: "([^"]+)"$', text, re.M) == authors
+    block = text.split("\nauthors:\n", 1)[1]
+    block = block[:re.search(r"^\S", block, re.M).start()]
+    cited = []
+    for entry in re.split(r"^  - ", block, flags=re.M)[1:]:
+        fields = dict(re.findall(r'^\s*([a-z-]+): "([^"]*)"$', entry, re.M))
+        cited.append(fields.get("name")
+                     or "%s %s" % (fields["given-names"], fields["family-names"]))
+    assert authors and cited == authors
     assert re.search(r'^license = "Apache-2\.0"$', project, re.M)
     assert re.search(r"^license: Apache-2\.0$", text, re.M)
 
@@ -458,7 +468,7 @@ def test_ci_runs_the_suite_the_gates_and_the_artifact_checks():
         assert needle in release, needle
 
 
-@pytest.mark.parametrize("name", ["ci.yml", "release-validation.yml"])
+@pytest.mark.parametrize("name", ["ci.yml", "release-validation.yml", "publish.yml"])
 def test_workflows_are_valid_yaml_without_local_paths(name):
     text = _workflow(name)
     assert "/Users/" not in text and "C:\\" not in text
@@ -469,6 +479,58 @@ def test_workflows_are_valid_yaml_without_local_paths(name):
                     % OPTIONAL_DEPENDENCY)
     doc = yaml.safe_load(text)
     assert doc["jobs"] and all("runs-on" in job for job in doc["jobs"].values())
+
+
+#: Triggers that would start a workflow without a person choosing to.
+_AUTOMATIC_TRIGGER = re.compile(
+    r"^  (push|pull_request|pull_request_target|release|schedule|workflow_run"
+    r"|repository_dispatch|create|registry_package|deployment):", re.M)
+
+
+@pytest.mark.parametrize("name", ["ci.yml", "release-validation.yml"])
+def test_the_test_workflows_cannot_publish(name):
+    """Pushes, pull requests, tags and test runs never publish anything: the
+    test workflows hold no identity token, secret or upload step."""
+    text = _workflow(name)
+    for needle in ("id-token", "secrets.", "pypi-publish", "twine upload",
+                   "gh release", "zenodo", "contents: write", "packages: write"):
+        assert needle not in text.lower(), (name, needle)
+    assert re.search(r"^permissions:\n  contents: read$", text, re.M)
+
+
+def test_publishing_is_by_hand_from_a_reviewed_tag_after_approval():
+    """publish.yml: started by a person only, from a release tag, for files
+    whose hashes were reviewed, after a reviewer approves the environment; it
+    publishes through Trusted Publishing and holds no stored credential."""
+    text = _workflow("publish.yml")
+    on = text.split("\non:\n", 1)[1].split("\npermissions:", 1)[0]
+    assert re.search(r"^  workflow_dispatch:$", on, re.M)
+    assert not _AUTOMATIC_TRIGGER.search(on)
+    assert re.search(r"^permissions: \{\}$", text, re.M)
+    verify, publish = text.split("\n  verify:\n", 1)[1].split("\n  publish:\n", 1)
+    # Only the publish job, after the verification and the approval, can ask
+    # for an identity token.
+    assert "id-token" not in verify and text.count("id-token: write") == 1
+    assert "needs: verify" in publish and "id-token: write" in publish
+    assert re.search(r"^    environment:\n      name: \$\{\{ inputs\.target \}\}$",
+                     publish, re.M)
+    assert "options: [testpypi, pypi]" in on and "default: testpypi" in on
+    for needle in ('"$GITHUB_REF_TYPE" != tag', '"v$version"', "origin/main",
+                   "required_reviewers", ".github/workflows/release-validation.yml",
+                   "conclusion", "RELEASE_CANDIDATE_MANIFEST.json",
+                   "$WHEEL_SHA256", "$SDIST_SHA256", "sha256sum --check --strict",
+                   "twine check"):
+        assert needle in verify, needle
+    assert "sha256sum --check --strict" in publish
+    # No build: the files published are those release validation tested.
+    assert "python -m build" not in text and "release_artifacts.py" not in text
+    # Trusted Publishing, by a pinned action; nothing stored.
+    uses = re.findall(r"pypa/gh-action-pypi-publish@(\S+)", text)
+    assert uses and all(re.fullmatch(r"[0-9a-f]{40}", ref) for ref in uses)
+    code = "\n".join(line for line in text.splitlines()
+                     if not line.lstrip().startswith("#"))
+    for needle in ("secrets.", "password", "api-token", "user:"):
+        assert needle not in code, needle
 
 
 @pytest.mark.parametrize("rel", [
@@ -707,7 +769,7 @@ def _released_text_files():
     out = ["README.md", "CHANGELOG.md", "RELEASE_CHECKLIST.md", "NOTICE",
            "CITATION.cff", "MANIFEST.in", "pyproject.toml", ".gitignore",
            ".gitattributes", ".github/workflows/ci.yml",
-           ".github/workflows/release-validation.yml"]
+           ".github/workflows/release-validation.yml", ".github/workflows/publish.yml"]
     suffixes = {"docs": (".md", ".py"), os.path.join("src", "biotsr"): (".md", ".py"),
                 "tests": (".md", ".py", ".json", ".csv"),
                 "validation": (".md", ".py", ".json", ".csv", ".txt")}

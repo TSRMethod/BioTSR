@@ -186,5 +186,5 @@ def test_skip_never_trusts_a_record_that_names_files_outside_the_folder(tmp_path
                                                    request, False)
 
 
-def test_the_version_under_test_is_the_candidate():
-    assert biotsr.__version__ == "1.0.0rc7"
+def test_the_version_under_test_is_the_release():
+    assert biotsr.__version__ == "1.0.0"

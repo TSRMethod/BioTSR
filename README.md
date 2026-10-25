@@ -8,8 +8,8 @@ Relationship (TSR) methodology.** It is developed by the **TSR Research Group**
 installation, all twenty methods with an example each, and the dataset workflow
 from download to analysis. `biotsr --help` prints the same link.
 
-> **Release candidate — 1.0.0rc7.** Not yet published to PyPI. Licensed under
-> the Apache License 2.0 (see [License](#license)).
+> **Version 1.0.0.** Licensed under the Apache License 2.0 (see
+> [License](#license)). How to cite it: [Citation](#citation).
 
 ## What TSR is
 
@@ -53,15 +53,15 @@ A Cα point is labelled by its residue: the 20 regular amino acids and eleven
 modified residues RCSB files write as `HETATM` — `TPO`, `SEP`, `PTR`, `NIY`,
 `M3L`, `TRF`, `CSO`, `LLP`, `CME` and `CSD` with codes of their own, and `MSE`
 with methionine's — encoded at radix 30 so that no two residue combinations
-share a key. Cα results computed before 1.0.0rc5 used radix 20 and no modified
-residues; compute them again (the
+share a key. Cα results from pre-release builds that used radix 20 and no
+modified residues are in another key space; compute them again (the
 [changelog](https://github.com/TSRMethod/BioTSR/blob/main/CHANGELOG.md) says
-what changed).
+which results this concerns).
 
 An atom in the atomic methods is labelled by its element, read from the PDB
 element field (columns 77–78) — carbon 106, nitrogen 108, oxygen 109,
 phosphorus 110, sulfur 111, chlorine 93, … at radix 112 — never by its atom
-name. Atomic results computed before 1.0.0rc7 labelled atoms by name; they are
+name. Atomic results from pre-release builds that labelled atoms by name are
 in another key space and are not compared with current results, so compute
 them again.
 
@@ -89,11 +89,14 @@ parallel; the scientific core itself uses only the standard library.
 
 <!-- not-executed -->
 ```bash
-pip install .                                       # from a clone of https://github.com/TSRMethod/BioTSR
-pip install dist/biotsr-1.0.0rc7-py3-none-any.whl   # or from a built wheel
+pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"   # the 1.0.0 release, from GitHub
+pip install .                                                         # from a clone of https://github.com/TSRMethod/BioTSR
 ```
 
-`pip install biotsr` will work once 1.0 is published on PyPI; it is not yet.
+The wheel and source distribution are also attached to the
+[1.0.0 release](https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0) on
+GitHub. **From PyPI**, `pip install biotsr` installs the same release; it is
+available when <https://pypi.org/project/biotsr/> lists version 1.0.0.
 
 Batches run one row at a time unless you ask for more with `--jobs N` or
 `--jobs auto`; nothing extra needs installing for that. One optional extra,
@@ -188,8 +191,8 @@ for example `1UBQ_A_protein` or `7LF9_D_carbohydrate_NAG_1`):
 The bin definitions are in the metadata, not the file name. `biotsr describe
 results/` lists the calculations in a folder, and `biotsr describe
 results/1UBQ_A_protein` shows how one was produced. A batch also writes
-`batch_summary.csv`, one row per request. Output folders written by 1.0.0rc3
-and earlier release candidates are not read; recompute them.
+`batch_summary.csv`, one row per request. Output folders in the per-sample
+directory layout of early pre-release builds are not read; recompute them.
 
 ## Python API
 
@@ -259,7 +262,10 @@ package.
 
 If you use BioTSR, please cite it using the metadata in
 [`CITATION.cff`](https://github.com/TSRMethod/BioTSR/blob/main/CITATION.cff) (GitHub's "Cite this repository" button reads
-it).
+it):
+
+> Khajouie, P., Rauniyar, K., Raghavan, V. V., & Xu, W. *BioTSR* (version
+> 1.0.0) [Computer software]. https://github.com/TSRMethod/BioTSR
 
 ## License
 

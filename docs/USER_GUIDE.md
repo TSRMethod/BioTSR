@@ -99,9 +99,8 @@ supported.
 ## 1. Installation
 
 BioTSR needs Python 3.9 or later and supports CPython 3.9–3.13 on Linux and
-macOS. CI runs the full default test suite on 3.9–3.13 on Linux and on 3.13 on
-macOS (arm64); 3.9–3.12 on macOS were also run locally during release
-preparation.
+macOS. CI runs the full default test suite on each of 3.9–3.13 on Linux and on
+macOS (arm64). Windows is not supported.
 
 <!-- not-executed -->
 ```bash
@@ -112,10 +111,12 @@ source .venv/bin/activate
 pip install .
 ```
 
-A built wheel installs the same way:
-`pip install dist/biotsr-1.0.0rc7-py3-none-any.whl`. BioTSR is not on PyPI yet;
-once version 1.0 is published, `pip install biotsr` will be the normal
-installation. Either way the installation brings BioTSR's
+The 1.0.0 release also installs without a clone, from GitHub —
+`pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"`, or the
+wheel attached to the
+[release](https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0) — and from
+PyPI, `pip install biotsr`, once <https://pypi.org/project/biotsr/> lists
+version 1.0.0. Every way, the installation brings BioTSR's
 one runtime dependency, **joblib**, which runs batch rows in parallel
 (`--jobs`, §13.6); the calculation itself uses only the standard library.
 Nothing else is needed to run every method in parallel. The optional
@@ -125,7 +126,7 @@ checkout, or `pip install "biotsr[plot]"` (§17).
 Check the installation:
 
 ```bash
-biotsr --version        # prints: biotsr 1.0.0rc7
+biotsr --version        # prints: biotsr 1.0.0
 biotsr methods
 ```
 
@@ -337,10 +338,10 @@ assert synthetic.selection.residues_used[:9] == ("1", "2", "3", "4", "5", "6", "
 assert synthetic.warnings == ()          # TPO 3, SEP 5, PTR 7 and CME 8 are points
 ```
 
-**Results computed before 1.0.0rc5 must be computed again.** Earlier versions
-encoded the 20 regular residues at radix 20 and did not read modified residues,
-so every Cα key had another value. Those results load, but their key space
-differs: an analysis refuses to combine them with current ones, and
+**Cα results from pre-release builds at radix 20 must be computed again.**
+Those builds encoded the 20 regular residues at radix 20 and did not read
+modified residues, so every Cα key had another value. Those results load, but
+their key space differs: an analysis refuses to combine them with current ones, and
 `--if-exists skip` refuses to reuse them, leaving their files untouched;
 compute them again with `--if-exists overwrite` or into a new `--output`
 (§13.8).
@@ -423,9 +424,9 @@ every record — but it never decides the label: an ATP's `PA` is phosphorus
 element field as written and corrects nothing; a file with a wrong element
 field needs correcting before use.
 
-**Atomic results computed before 1.0.0rc7 must be computed again.** Earlier
-versions labelled atoms through their names, so some atoms had other labels
-and every atomic key space had another fingerprint. Those results load, but an
+**Atomic results from pre-release builds that labelled atoms by name must be
+computed again.** Those builds labelled atoms through their names, so some
+atoms had other labels and every atomic key space had another fingerprint. Those results load, but an
 analysis refuses to combine them with current ones and `--if-exists skip`
 refuses to reuse them, leaving their files untouched (§13.8). The labels that
 did not change — the keys of most calculations are identical — are no reason
@@ -1098,9 +1099,9 @@ with open("named/complete.run.json") as fh:
   cross method, stop at the `TER` record of the requested chain. The `HETATM`
   families — `drug` and the carbohydrate methods — and the molecule side of
   every entity cross method read past `TER` to the end of model 1, because
-  ligand and glycan records usually follow it. (Until 1.0.0rc5 the protein side
-  of `carbohydrate_protein_cross` and `nucleotide_protein_cross` read past
-  `TER` too.) A `TER` record ends the chain its chain identifier names; one
+  ligand and glycan records usually follow it. (Pre-release builds before
+  ADR-109 read past `TER` on the protein side of `carbohydrate_protein_cross`
+  and `nucleotide_protein_cross` too.) A `TER` record ends the chain its chain identifier names; one
   without a chain identifier ends none — check files written by tools that
   write such records.
 * **Atom names and elements.** An atom's name is the full PDB atom-name field,
@@ -1549,12 +1550,13 @@ them or refuses them. A `--dry-run` writes nothing at all. Copy the reports
 first if you need the earlier run's.
 
 `skip` also requires each result's key space to be the one this version
-computes for the request. A Cα output written before 1.0.0rc5 (residue labels
-at radix 20), and every atomic output written before 1.0.0rc7 (atoms labelled
-by name), therefore fails with `… its keys were computed in a different key
-space …`, alone or followed by the processing message above; it cannot be
-analysed with current results either, so compute it again (§3, §5). A Cα output
-of 1.0.0rc5 or rc6 is kept: nothing about it changed.
+computes for the request. A Cα output of a pre-release build with residue
+labels at radix 20, and an atomic output of a pre-release build that labelled
+atoms by name, therefore fails with `… its keys were computed in a different
+key space …`, alone or followed by the processing message above; it cannot be
+analysed with current results either, so compute it again (§3, §5). An output
+whose key space and recorded processing rules are this version's is kept,
+whichever build wrote it.
 
 **A kept partial result stays partial.** When `--if-exists skip` keeps an
 output that is itself partial (§12.4), the request is `skipped`, its message
@@ -1867,7 +1869,7 @@ residue's files carry the residue after the sweep's prefix
 (`1UBQ_A_amino_acid_atomic_perresidue_LEU_15.keys`), and the sweep has one
 completion record (`1UBQ_A_amino_acid_atomic_perresidue.run.json`).
 
-**Older outputs.** Results written by 1.0.0rc3 or earlier — one directory per
+**Older outputs.** Results written by early pre-release builds — one directory per
 sample with `run.json` inside, and names such as `1UBQ_A.keys_29_35` — are not
 read by this version: `describe`, `analyze --from-results` and
 `biotsr.load_result` refuse them with a message saying so. Recompute them.
@@ -1928,7 +1930,7 @@ assert loaded.triplets is None        # per-triangle records are not restored
 ```
 
 Every output this version writes is native and can be loaded this way.
-Results written by 1.0.0rc3 or earlier are refused (§15).
+Results in the per-sample layout of early pre-release builds are refused (§15).
 
 ---
 
@@ -1960,8 +1962,8 @@ summary).
   directories, such as staging ones, and `analysis/` folders are never read),
   and each calculation is reported under its prefix. An incomplete record, a
   file that does not match the size recorded for it, and a `.keys` file no
-  complete record lists are refused, as are results in the layout of 1.0.0rc3
-  or earlier. Flags that would compute — `--method`, `--chain`, modifiers,
+  complete record lists are refused, as are results in the per-sample layout
+  of early pre-release builds. Flags that would compute — `--method`, `--chain`, modifiers,
   `--pdb-dir`, `--column`/`--keep-column`/`--ignore-column`, the sheet options,
   download options, `--jobs`, `--if-exists`, `--on-error` — are refused.
 * **With `--manifest samples.csv --pdb-dir pdb/`** the samples are computed
@@ -2031,9 +2033,9 @@ the difference (`size_filter (None vs 25.0)`). With it, the report is written
 and records the warning and, per sample, the fingerprints, the processing
 settings, the selection and the warnings of the sample's own result. In
 Python, every analysis function takes `allow_mixed_processing=True`. (In
-1.0.0rc3 this option was `--allow-mixed-sampling` / `allow_mixed_sampling=`,
-and selections needed it too; the old flag now stops with an error naming the
-new one.)
+early pre-release builds this option was `--allow-mixed-sampling` /
+`allow_mixed_sampling=`, and selections needed it too; the old flag now stops
+with an error naming the new one.)
 
 A set with a **partial** sample is refused in the same way until you
 acknowledge it. Chain B of `SYNPHOS.pdb` has no SER, so a TYR, LYS and SER
@@ -2269,10 +2271,10 @@ Ordinary mistakes print one line starting `biotsr: error:` and exit with status
 | `results do not share a key space; their integer keys are not comparable. Differences: …` | you combined results with different methods or modifiers; compare like with like |
 | `… share key definitions but were processed with different settings: …` | the samples differ in a processing setting (size filter, contact cutoff, completeness rule, …); analyse them separately, or pass `--allow-mixed-processing` (§17) |
 | `… processed with different settings: modified_residue_policy ('hetatm_amino_acids:PTR,SEP,TPO' vs not recorded)` | one result was written before the modified-residue rule was recorded and may have left out TPO, SEP and PTR; recompute it with `--if-exists overwrite`, or pass `--allow-mixed-processing` to compare it as it is (§13.8, §17) |
-| `… its keys were computed in a different key space …`, or an analysis refusing a result's key space | an atomic result computed before 1.0.0rc7 (atoms labelled by name, label scheme `atom_lexicon_standard_112`), or a Cα result computed before 1.0.0rc5 (residue labels at radix 20); compute it again (`--if-exists overwrite`) (§3, §5). No option compares them with current results |
+| `… its keys were computed in a different key space …`, or an analysis refusing a result's key space | an atomic result of a pre-release build that labelled atoms by name (label scheme `atom_lexicon_standard_112`), or a Cα result of a pre-release build with residue labels at radix 20; compute it again (`--if-exists overwrite`) (§3, §5). No option compares them with current results |
 | `N of the M samples are partial -- their selections did not get everything they asked for: …` | some samples lack something they asked for (the message names each and what it lacks); fix the requests or the structures, or pass `--allow-partial` to analyse them as computed (§17) |
 | `--allow-mixed-sampling was renamed --allow-mixed-processing` | use the new name; selections never need it (§17) |
-| `… was written by a BioTSR 1.0 release candidate (1.0.0rc3 or earlier) …` | that output's layout is not read by this version; recompute it into a new `--output` (§15) |
+| `… in the per-sample directory layout with the bin counts in the file name …` | that output's layout is not read by this version; recompute it into a new `--output` (§15) |
 | `… is not part of a completed calculation: no completion record lists it`, or `the calculation … is not complete` | an interrupted run left it; recompute it (`--if-exists skip` or `overwrite`), or move it out of the folder (§13.8) |
 | `--from-results reads results that were already computed, so --method would have no effect` | drop the computing flags with `--from-results`, or use `--manifest` (§17) |
 | `--download-workers must be from 1 to 16`, `--timeout must be greater than 0 seconds` | invalid download settings are refused, never replaced (§2.4) |

@@ -1,0 +1,180 @@
+# BioTSR publication to PyPI -- started by a person, for a release tag, only.
+#
+# Nothing starts this workflow automatically: it has no push, pull-request,
+# tag, release or schedule trigger, so no ordinary push or test run can
+# publish. It does not build anything. It publishes the wheel and sdist that
+# release validation built and tested on the release tag, and only when
+#
+#   * it was started from a tag vX.Y.Z on main that names the package version
+#     (a pre-release version may go to TestPyPI, never to PyPI);
+#   * the named run is a successful run of release-validation.yml on that
+#     tag's commit, and its manifest names the same commit and version;
+#   * each file's SHA-256 equals the hash typed in when starting the run --
+#     the hashes reviewed for the release;
+#   * the target environment (`testpypi` or `pypi`) exists with required
+#     reviewers, and a reviewer approves the deployment.
+#
+# PyPI accepts the upload through Trusted Publishing (OpenID Connect): no API
+# token or password is stored anywhere, and only the publish job, after the
+# approval, can request an identity token. docs/RELEASING.md, section 9, has
+# the one-time setup and the procedure.
+name: Publish to PyPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Package index: testpypi for a rehearsal, pypi for the release"
+        type: choice
+        options: [testpypi, pypi]
+        default: testpypi
+      validation_run_id:
+        description: "Id of the release-validation run on this tag (the number in its URL)"
+        type: string
+        required: true
+      wheel_sha256:
+        description: "Reviewed SHA-256 of the wheel"
+        type: string
+        required: true
+      sdist_sha256:
+        description: "Reviewed SHA-256 of the sdist"
+        type: string
+        required: true
+
+permissions: {}
+
+concurrency:
+  group: publish-${{ inputs.target }}
+  cancel-in-progress: false
+
+env:
+  TARGET: ${{ inputs.target }}
+  RUN_ID: ${{ inputs.validation_run_id }}
+  WHEEL_SHA256: ${{ inputs.wheel_sha256 }}
+  SDIST_SHA256: ${{ inputs.sdist_sha256 }}
+
+jobs:
+  verify:
+    name: verify the tag, the validation run and the reviewed hashes
+    if: github.repository == 'TSRMethod/BioTSR'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Started from a release tag, with well-formed inputs
+        run: |
+          if [ "$GITHUB_REF_TYPE" != tag ]; then
+            echo "::error::start this workflow from a release tag (Use workflow from: Tags), not $GITHUB_REF"
+            exit 1
+          fi
+          echo "$RUN_ID" | grep -Eqx '[0-9]+' || { echo "::error::validation_run_id must be a number"; exit 1; }
+          for h in "$WHEEL_SHA256" "$SDIST_SHA256"; do
+            echo "$h" | grep -Eqx '[0-9a-f]{64}' || { echo "::error::each hash must be 64 lower-case hex digits"; exit 1; }
+          done
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: The tag names the package version and is on main
+        run: |
+          version=$(sed -n 's/^__version__ = "\(.*\)"$/\1/p' src/biotsr/__init__.py)
+          echo "package version: $version"
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not name the package version $version"
+            exit 1
+          fi
+          if [ "$TARGET" = pypi ] && echo "$version" | grep -Eq '(a|b|rc|dev)[0-9]+'; then
+            echo "::error::$version is a pre-release; it may go to TestPyPI only"
+            exit 1
+          fi
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main || {
+            echo "::error::$GITHUB_REF_NAME ($GITHUB_SHA) is not on main"; exit 1; }
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+      - name: The target environment requires a reviewer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rules=$(gh api "repos/$GITHUB_REPOSITORY/environments/$TARGET" \
+                  --jq '[.protection_rules[]?.type] | join(",")') || {
+            echo "::error::environment $TARGET does not exist; create it with required reviewers first"; exit 1; }
+          case ",$rules," in
+            *,required_reviewers,*) echo "environment $TARGET: $rules" ;;
+            *) echo "::error::environment $TARGET has no required reviewers ($rules)"; exit 1 ;;
+          esac
+      - name: The named run is a successful release validation of this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          read -r path sha conclusion <<EOF
+          $(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" --jq '[.path, .head_sha, .conclusion] | @tsv')
+          EOF
+          echo "run $RUN_ID: $path $sha $conclusion"
+          [ "$path" = .github/workflows/release-validation.yml ] || { echo "::error::run $RUN_ID is not a release-validation run"; exit 1; }
+          [ "$sha" = "$GITHUB_SHA" ] || { echo "::error::run $RUN_ID validated $sha, not $GITHUB_SHA"; exit 1; }
+          [ "$conclusion" = success ] || { echo "::error::run $RUN_ID did not succeed ($conclusion)"; exit 1; }
+      - uses: actions/download-artifact@v7
+        with:
+          name: biotsr-release-validation
+          path: validated
+          run-id: ${{ inputs.validation_run_id }}
+          github-token: ${{ github.token }}
+      - name: The validated files are the reviewed ones
+        run: |
+          wheel="validated/biotsr-$VERSION-py3-none-any.whl"
+          sdist="validated/biotsr-$VERSION.tar.gz"
+          echo "$WHEEL_SHA256  $wheel" | sha256sum --check --strict
+          echo "$SDIST_SHA256  $sdist" | sha256sum --check --strict
+          python3 - "$VERSION" <<'PY'
+          import json, os, sys
+          manifest = json.load(open("validated/RELEASE_CANDIDATE_MANIFEST.json"))["identity"]
+          assert manifest["git_commit"] == os.environ["GITHUB_SHA"], manifest["git_commit"]
+          assert manifest["biotsr_version"] == sys.argv[1], manifest["biotsr_version"]
+          assert manifest["git_tree_clean"] is True
+          PY
+          mkdir dist
+          cp "$wheel" "$sdist" dist/
+          python3 -m pip install --quiet twine
+          python3 -m twine check --strict dist/*
+          sha256sum dist/*
+      - uses: actions/upload-artifact@v6
+        with:
+          name: biotsr-pypi-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: publish to ${{ inputs.target }}
+    needs: verify
+    if: github.repository == 'TSRMethod/BioTSR'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: ${{ inputs.target }}
+      url: ${{ inputs.target == 'pypi' && 'https://pypi.org/project/biotsr/' || 'https://test.pypi.org/project/biotsr/' }}
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: biotsr-pypi-dist
+          path: dist
+      - name: The approved files are the reviewed ones
+        run: |
+          ls -l dist
+          wheels=(dist/*.whl)
+          sdists=(dist/*.tar.gz)
+          test "$(find dist -type f | wc -l)" -eq 2
+          test "${#wheels[@]}" -eq 1 && test "${#sdists[@]}" -eq 1
+          echo "$WHEEL_SHA256  ${wheels[0]}" | sha256sum --check --strict
+          echo "$SDIST_SHA256  ${sdists[0]}" | sha256sum --check --strict
+      - name: Upload to TestPyPI
+        if: inputs.target == 'testpypi'
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3
+        with:
+          repository-url: https://test.pypi.org/legacy/
+      - name: Upload to PyPI
+        if: inputs.target == 'pypi'
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # v1.14.3

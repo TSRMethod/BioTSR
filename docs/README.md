@@ -28,13 +28,14 @@ you are new, start with the tutorials.
 | [Platform validation](PLATFORM_VALIDATION.md) | what is validated on Linux and macOS, and how |
 | [Reference evidence](REFERENCE_EVIDENCE.md) | every reference calculation the tests compare against, what is compared, and which evidence is regression and which independent |
 | [Known limitations](KNOWN_LIMITATIONS.md) | what version 1.0 does not do, stated precisely |
+| [Pre-release changes](PRE_RELEASE_CHANGES.md) | what changed between the pre-release builds of 1.0, none of them published as a release, for results one of them wrote |
 
 ## Architecture
 
 | | |
 |---|---|
 | [Architecture overview](ARCHITECTURE.md) | how the package is built: the pipeline, the TSR Engine, profiles, identities, serialization |
-| [Architecture decisions](architecture/README.md) | ADR-001 to ADR-100: why BioTSR behaves as it does |
+| [Architecture decisions](architecture/README.md) | ADR-001 to ADR-114: why BioTSR behaves as it does |
 
 ## Methods
 

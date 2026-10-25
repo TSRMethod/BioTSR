@@ -14,11 +14,11 @@ is deliberately not part of the method descriptions.
 
 ## Environment
 
-This note describes BioTSR 1.0.0rc5, a release candidate of 1.0.0.
+This note describes BioTSR 1.0.0.
 
 ```bash
-pip install .           # from the repository root (or: pip install biotsr, once published)
-biotsr --version        # biotsr 1.0.0rc5
+pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"   # or, once https://pypi.org/project/biotsr/ lists 1.0.0: pip install biotsr
+biotsr --version        # biotsr 1.0.0
 ```
 
 The calculation uses the standard library only (the installation's one
@@ -100,9 +100,10 @@ the run to be reconstructed by inference:
 * `PREFIX.meta.json` — the full `KeySpace` and `SamplingProfile` with their
   fingerprints, the profile that ran, the selection record (per side: chain,
   scope, arguments and every molecule or residue instance used), the source
-  file's SHA-256, the parser backend, the alternate-location rule and the
+  file's SHA-256, the parser backend, the alternate-location rule, the
   modified-residue rule (`source.modified_residue_policy`: which modified amino
-  acids written as `HETATM` were read), the
+  acids written as `HETATM` were read) and the input rules
+  (`source.input_rules`: how atom records were read, ADR-108), the
   candidate ledger, the SSE assignment and coverage, every skip and every
   warning (result schema 2);
 * `PREFIX.run.json` — the completion record: the command, the package version,
@@ -145,7 +146,8 @@ Two fingerprints are recorded on every result:
 Every analysis — feature matrices, common keys, similarity and clustering —
 requires one `KeySpace`, decided from the key definitions and never from method
 names. The processing settings among the sampling fields, with the
-alternate-location and modified-residue rules, must also agree unless mixed
+alternate-location, modified-residue and input rules, must also agree unless
+mixed
 processing is explicitly allowed (`--allow-mixed-processing`,
 `allow_mixed_processing=True`), and the report then records every sample's
 settings and a warning; a result that does not record the modified-residue
@@ -237,9 +239,9 @@ BioTSR output uses). Re-run the calculation for either; the keys are identical.
 
 The format states its own version, `result_schema_version` (2), so a build
 either reads a file or refuses it by name — it never reads one schema as
-another (ADR-074, ADR-078). Results and output folders written by 1.0.0rc3 or
-earlier (per-sample directories, `*.keys_29_35` names, schema 1) are refused
-with a message saying so; recompute them.
+another (ADR-074, ADR-078). Results and output folders written by early
+pre-release builds (per-sample directories, `*.keys_29_35` names, schema 1)
+are refused with a message saying so; recompute them.
 
 Anything **not** recorded is not recoverable, and that is the boundary to state
 in a methods section: a saved result reproduces the *interpretation*, not the

@@ -22,10 +22,10 @@ Two kinds of item:
 - [ ] No decision record the release depends on is still proposed: every one
       in [docs/architecture/DECISIONS.md](docs/architecture/DECISIONS.md) is
       accepted, superseded or historical *(human)*
-- [ ] `CITATION.cff` attribution confirmed: the agreed group attribution,
-      "TSR Research Group"; individual authors, their order, affiliations or a
-      preferred paper are added only if the maintainers choose to, never
-      guessed *(human)*
+- [ ] `CITATION.cff` and the package metadata confirmed: the software's
+      authors and their order as the maintainers set them; ORCIDs,
+      affiliations, a DOI or a preferred paper are added only when the
+      maintainers supply them, never guessed *(human)*
 - [ ] Commit author and committer metadata reviewed before any push that would
       publish it *(human)*
 - [ ] If the repository is to be made public: approval of what it contains,
@@ -53,22 +53,32 @@ Two kinds of item:
       `gates_api_hardening.py`) *(automated)*
 - [ ] HEAD free of workstation paths and account identifiers
       (`sanitize_tree.py --check`) *(automated)*
-- [ ] Release manifest regenerated for the release commit
-      (`release_manifest.py`) *(automated)*
+- [ ] Release manifest generated for the release commit by release
+      validation (`release_manifest.py`) *(automated)*
 - [ ] PyPI name availability re-verified *(automated check)*
+- [ ] No workflow but `publish.yml` can publish, and it only by hand, from a
+      release tag, for reviewed hashes, after an environment approval
+      (`test_release_readiness.py`) *(automated)*
 
 ## C. Publication — only after every item in A is done
 
+The procedure is [docs/RELEASING.md](docs/RELEASING.md), §8–§10.
+
 - [ ] Final version in `src/biotsr/__init__.py`, `CITATION.cff` (with
-      `date-released`), `CHANGELOG.md` (dated) and every other version-bearing
-      file *(human, then automated: `test_every_version_bearing_file_follows_the_version`)*
-- [ ] Version-bearing gate evidence and the release manifest regenerated; clean
-      tree *(automated)*
-- [ ] Release tag on `main` *(human)*
-- [ ] GitHub Release from `CHANGELOG.md`, with the wheel, sdist and manifest
-      attached *(human)*
-- [ ] Optional: PyPI upload — TestPyPI first, clean install from TestPyPI, then
-      PyPI *(human)*
+      `date-released` once the date is fixed), `CHANGELOG.md` (dated) and every
+      other version-bearing file *(human, then automated:
+      `test_every_version_bearing_file_follows_the_version`)*
+- [ ] Version-bearing gate evidence regenerated; clean tree *(automated)*
+- [ ] `ci.yml` and `release-validation.yml` green on the release branch's
+      head, and `main` fast-forwarded to that same commit *(human)*
+- [ ] Release tag `vX.Y.Z` on that commit; release validation green on the tag;
+      the SHA-256 of its wheel and sdist recorded *(human)*
+- [ ] GitHub Release from `CHANGELOG.md`, with the tag's wheel, sdist,
+      manifest and artifact report attached *(human)*
+- [ ] One-time PyPI setup: `testpypi` and `pypi` environments with required
+      reviewers, and pending publishers on TestPyPI and PyPI *(human)*
+- [ ] Optional: PyPI upload with `publish.yml` — TestPyPI first, its hashes and
+      a clean install checked, then PyPI *(human)*
 - [ ] Optional: Zenodo archive and software DOI; DOI added to `CITATION.cff` and
       the README *(human)*
 - [ ] Website update (`tsrmethod.github.io`), only once the release is public

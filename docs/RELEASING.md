@@ -9,7 +9,9 @@ in the package, and the steps to a release. The tick-list is
 ## 1. Versioning
 
 Versions follow [PEP 440](https://peps.python.org/pep-0440/). The current
-version is `1.0.0rc7`, a release candidate; `1.0.0` has not been released.
+version is `1.0.0`, the first release; it was prepared through release
+candidates `1.0.0rc1` to `1.0.0rc7`
+([pre-release changes](PRE_RELEASE_CHANGES.md)).
 
 * **One source of truth:** `__version__` in `src/biotsr/__init__.py`.
   `pyproject.toml` declares `dynamic = ["version"]` and reads it statically
@@ -23,9 +25,10 @@ version is `1.0.0rc7`, a release candidate; `1.0.0` has not been released.
   with the per-instance selection record; files of schema 1, written by
   1.0.0rc3 and earlier release candidates, are refused rather than read.
   Neither version is part of any scientific fingerprint.
-* **Release candidates** are `1.0.0rcN`. A change after a candidate has been
-  reviewed produces the next candidate; only the version string changes between
-  the candidate that is released and `1.0.0`. The tag is `v1.0.0`, on `main`,
+* **Release candidates** are `X.Y.ZrcN`. A change after a candidate has been
+  reviewed produces the next candidate; between the candidate that is released
+  and the release only the version string and release metadata (citation,
+  changelog, documentation wording) change. The tag is `vX.Y.Z`, on `main`,
   created by a person.
 * **After 1.0.0:** a change to what an existing key *means* (any `KeySpace`
   field or default), to a standard profile's science, or a breaking change to
@@ -63,7 +66,10 @@ a plotting library.
 
 ## 3. CI
 
-Two workflows under `.github/workflows/`.
+Three workflows under `.github/workflows/`. Two test; the third publishes, and
+only a person can start it (§9). No push, pull request, tag or test run can
+publish anything: the test workflows hold no identity token, secret or upload
+step, and a test asserts it.
 
 ### On pushes to `main` and release branches, and on pull requests — `ci.yml`
 
@@ -85,7 +91,20 @@ structures (`pytest -q -rs -m ""`, with
 `BIOTSR_REQUIRE_EVIDENCE=1`), the capability-matrix and sanitizer checks, both
 gate scripts and the clean-tree check, the artifact build and clean installs
 (`release_artifacts.py`), and the release manifest (`release_manifest.py`). The
-artifacts and the manifest are uploaded as a workflow artifact.
+artifacts and the manifest are uploaded as a workflow artifact,
+`biotsr-release-validation`, kept for 30 days. The run on a release tag
+produces the files that are published (§8, §9).
+
+### By hand, for a release tag — `publish.yml`
+
+Publishes the wheel and sdist of a release-validation run to TestPyPI or PyPI
+through Trusted Publishing; it builds nothing. It has no automatic trigger, and
+it refuses unless it was started from a tag on `main` that names the package
+version, the run it names is a successful release validation of that tag's
+commit, both files' SHA-256 equal the reviewed hashes typed in when starting
+it, and the target environment has required reviewers — one of whom must then
+approve the deployment. A pre-release version may go to TestPyPI, never to
+PyPI. §9 has the setup and the procedure.
 
 ### Validation scripts
 
@@ -157,9 +176,10 @@ and platform, tool versions, the packaged label table's hash and content fingerp
 the standard `KeySpace` fingerprint of every method, reference-run fingerprints,
 gate counts, the pytest summary when a log is supplied, and the SHA-256 of every
 built artifact. Release validation writes it to `dist/` and uploads it with the
-wheel and sdist. A copy is committed under `validation/evidence/release/` only as
-the release step in §8 describes, so that a committed record always names a
-commit that exists in this repository.
+wheel and sdist. It is not committed: the wheel's bytes depend on the commit
+time (`SOURCE_DATE_EPOCH`), so no record committed in a release can name that
+release's own artifacts. The manifest of the release tag's validation run is
+the release's record, attached to the GitHub Release (§8).
 
 ## 7. Version-bearing files
 
@@ -174,33 +194,97 @@ with the release bump, are listed as `VERSION_BEARING` in
 While the version is a release candidate, each must name the version or its
 status; once it is final, `test_every_version_bearing_file_follows_the_version`
 fails on any pre-release wording left behind. The committed evidence that
-records the version (`validation/evidence/api_hardening/GATE_RESULTS.json`, and
-the release records of §8 step 3) is regenerated with the bump.
+records the version (`validation/evidence/api_hardening/GATE_RESULTS.json`) is
+regenerated with the bump.
 
-## 8. Producing 1.0.0
+## 8. Producing a release
 
 Nothing is published until every decision in `RELEASE_CHECKLIST.md` §A has been
-made by the people with the authority to make it. Then:
+made by the people with the authority to make it. Then, for version `X.Y.Z`:
 
-1. Merge the reviewed release-candidate branch into `main`.
-2. Set `__version__ = "1.0.0"`; set `version: "1.0.0"` and `date-released` in
-   `CITATION.cff`; date the `CHANGELOG.md` entry as `## [1.0.0] — YYYY-MM-DD`
-   and point its link at the tag; and remove the pre-release wording from every
-   other version-bearing file (§7).
-3. Run `gates_api_hardening.py` and `gates_cli.py`, regenerate the release
-   evidence (`release_artifacts.py --json validation/evidence/release/RELEASE_ARTIFACTS.json`
-   and `release_manifest.py --output validation/evidence/release/RELEASE_CANDIDATE_MANIFEST.json`),
-   commit the regenerated files, and confirm `git status` is clean after a
+1. **Prepare** a branch `release-X.Y.Z` from `main`: set `__version__`; set
+   `version` (and `date-released`, once the date is fixed) in `CITATION.cff`;
+   write the `CHANGELOG.md` entry `## [X.Y.Z]` (dated once the date is fixed)
+   with its link to the tag; remove pre-release wording from the
+   version-bearing files (§7); run `gates_api_hardening.py` and `gates_cli.py`
+   and commit the regenerated evidence; `git status` must be clean after a
    second gate run.
-4. Push; wait for `ci.yml` to be green; run `release-validation.yml`.
-5. Tag: `git tag -a v1.0.0 -m "BioTSR 1.0.0"` and push the tag (this runs
-   release validation on the tag).
-6. Create the GitHub Release from the tag, with the `CHANGELOG.md` entry as
-   notes and the wheel, sdist and manifest from the tag's release-validation run
-   attached.
-7. Optional PyPI: `twine upload --repository testpypi dist/*`, install from
-   TestPyPI in a clean environment and run the clean-environment checks, then
-   `twine upload dist/*`.
-8. Optional Zenodo: archive the release, then add the DOI to `CITATION.cff` and
-   the README in a follow-up commit.
-9. Update the group website once the release is public.
+2. **Test the commit that will be released.** Push the branch (a `release-*`
+   push runs `ci.yml`) and open a pull request. When `ci.yml` is green, start
+   `release-validation.yml` by hand on the branch (**Actions → Release
+   validation → Run workflow → Use workflow from: Branch `release-X.Y.Z`**).
+   Any change after this repeats this step.
+3. **Merge without a new commit,** so that `main` is the tested commit itself:
+   `git push origin release-X.Y.Z:main` (a fast-forward; GitHub then shows the
+   pull request as merged). The merge button's merge, squash and rebase each
+   make a new commit, which has not been tested and is committed by GitHub.
+4. **Tag** the same commit: `git tag -a vX.Y.Z -m "BioTSR X.Y.Z"` and
+   `git push origin vX.Y.Z`. The tag push runs release validation again; wait
+   for it to be green. Its artifact, `biotsr-release-validation`, holds the
+   files that are published: record their SHA-256 (`sha256sum` of the
+   downloaded files, or `RELEASE_ARTIFACTS.json`) and the run's id.
+5. **GitHub Release** from the tag: the `CHANGELOG.md` entry as notes, with the
+   wheel, the sdist, `RELEASE_CANDIDATE_MANIFEST.json` and
+   `RELEASE_ARTIFACTS.json` of the tag's validation run attached.
+6. **PyPI** through `publish.yml` (§9): TestPyPI first, then PyPI.
+7. **Zenodo** (§10), when the maintainers decide to archive the release.
+8. **Website** (`tsrmethod.github.io`), once the release is public.
+
+## 9. Publishing to PyPI
+
+`publish.yml` uploads through
+[Trusted Publishing](https://docs.pypi.org/trusted-publishers/): PyPI accepts
+an upload from this repository's workflow, in a named environment, with no API
+token or password stored anywhere.
+
+**One-time setup** (a repository administrator and a PyPI account holder):
+
+* **GitHub environments.** *Settings → Environments → New environment*, named
+  `testpypi`, and again `pypi`. In each: **Required reviewers** — the
+  maintainers who approve uploads; **Deployment branches and tags** —
+  *Selected branches and tags*, with the tag rule `v*`. Leave *Prevent
+  self-review* off when one maintainer both starts and approves an upload.
+  `publish.yml` refuses to run against an environment without required
+  reviewers.
+* **Pending publishers.** On <https://test.pypi.org> and on <https://pypi.org>
+  (separate accounts, each with two-factor authentication): *Your account →
+  Publishing → Add a new pending publisher → GitHub*, with project name
+  `biotsr`, owner `TSRMethod`, repository `BioTSR`, workflow `publish.yml`, and
+  environment `testpypi` on TestPyPI, `pypi` on PyPI. A pending publisher does
+  not reserve the name; the first upload creates the project, owned by the
+  account that registered the publisher.
+
+**Each release**, after §8 step 5:
+
+1. **Rehearse on TestPyPI.** *Actions → Publish to PyPI → Run workflow*:
+   *Use workflow from* **Tags → vX.Y.Z**; target `testpypi`; the id of the
+   tag's release-validation run; the two reviewed SHA-256 hashes. When the
+   verification job is green, approve the deployment (*Review deployments →
+   testpypi → Approve and deploy*).
+2. **Check what TestPyPI serves:** the hashes listed at
+   `https://test.pypi.org/pypi/biotsr/X.Y.Z/json` equal the reviewed ones, and
+   a clean installation works — in a new virtual environment,
+   `pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ biotsr==X.Y.Z`,
+   then `biotsr --version` and `biotsr methods`; and
+   `validation/scripts/clean_install_check.py --artifact FILE` passes for each
+   file downloaded from TestPyPI.
+3. **Publish to PyPI** the same way, with target `pypi`, and check
+   `https://pypi.org/pypi/biotsr/X.Y.Z/json` and a clean
+   `pip install biotsr==X.Y.Z`. A version uploaded to PyPI can never be
+   replaced, only yanked; that is why TestPyPI comes first.
+
+The validation artifact is kept for 30 days: publish within that time, or run
+release validation on the tag again and use the new run's id and hashes.
+
+## 10. Archiving on Zenodo
+
+The GitHub–Zenodo integration is not enabled: it would archive every GitHub
+Release automatically, as soon as it is published. The maintainers archive a
+release deliberately, after it is published: a new Zenodo software record with
+the release's sdist and wheel, the metadata of `CITATION.cff` (title, authors
+in order, version, licence, repository URL), and the GitHub Release as a
+related identifier. When the record is published, its DOI is added to
+`CITATION.cff` (`doi:`) and to the README in a follow-up commit; a DOI is never
+written into the repository before it exists. A later paper's DOI is added to
+the Zenodo record's related identifiers, and to `CITATION.cff` as
+`preferred-citation`, once the paper is published.

@@ -111,4 +111,4 @@ def test_ci_runs_the_suite_on_linux_and_on_macos_arm64():
 def test_no_temporary_diagnostic_workflow_remains():
     workflows = _require(os.path.join(WORKSPACE, ".github", "workflows"))
     assert sorted(os.listdir(workflows)) == [
-        "ci.yml", "release-validation.yml"]
+        "ci.yml", "publish.yml", "release-validation.yml"]
