@@ -463,8 +463,10 @@ def test_ci_runs_the_suite_the_gates_and_the_artifact_checks():
                    "gates_api_hardening.py", 'test -z "$(git status --porcelain)"'):
         assert needle in ci, needle
     release = _workflow("release-validation.yml")
-    for needle in ('-m ""', "release_artifacts.py", "release_manifest.py",
-                   "gates_cli.py", "gates_api_hardening.py"):
+    # The manifest lists the artifacts it describes (their SHA-256).
+    for needle in ('-m ""', "release_artifacts.py",
+                   "release_manifest.py --dist-dir dist", "gates_cli.py",
+                   "gates_api_hardening.py"):
         assert needle in release, needle
 
 

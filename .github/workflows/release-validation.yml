@@ -50,7 +50,7 @@ jobs:
       - name: Build, inspect, twine-check, and clean-install each artifact
         run: python validation/scripts/release_artifacts.py --dist-dir dist --json dist/RELEASE_ARTIFACTS.json
       - name: Release manifest
-        run: python validation/scripts/release_manifest.py --output dist/RELEASE_CANDIDATE_MANIFEST.json
+        run: python validation/scripts/release_manifest.py --dist-dir dist --output dist/RELEASE_CANDIDATE_MANIFEST.json
       - uses: actions/upload-artifact@v6
         with:
           name: biotsr-release-validation
