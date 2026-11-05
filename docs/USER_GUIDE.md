@@ -760,7 +760,8 @@ any other character becomes `-`, except a prime, which is written `p` so the
 name stays readable (`C1'` becomes `C1p`). That spelling is not exact (`C1'`
 and an atom named `C1P` would read alike), so BioTSR appends the request
 fingerprint `_ha6305ae521`: the first ten hex digits of a SHA-256 over the
-request, so two different requests never share a prefix (§13.5). The
+request, to distinguish requests whose readable prefixes would otherwise
+coincide (§13.5). The
 fingerprint depends only on the request (structure name, chain, method,
 selection, modifiers and settings), not on the file's contents. `--sample-id`
 chooses a prefix instead.
