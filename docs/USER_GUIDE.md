@@ -115,13 +115,13 @@ The 1.0.0 release also installs without a clone, from GitHub —
 `pip install "biotsr @ git+https://github.com/TSRMethod/BioTSR@v1.0.0"`, or the
 wheel attached to the
 [release](https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0) — and from
-PyPI, `pip install biotsr`, once <https://pypi.org/project/biotsr/> lists
-version 1.0.0. Every way, the installation brings BioTSR's
+PyPI, `python -m pip install biotsr==1.0.0`
+(<https://pypi.org/project/biotsr/1.0.0/>). Every way, the installation brings BioTSR's
 one runtime dependency, **joblib**, which runs batch rows in parallel
 (`--jobs`, §13.6); the calculation itself uses only the standard library.
 Nothing else is needed to run every method in parallel. The optional
 clustered heat-map figure needs matplotlib: `pip install ".[plot]"` from a
-checkout, or `pip install "biotsr[plot]"` (§17).
+checkout, or `python -m pip install "biotsr[plot]==1.0.0"` (§17).
 
 Check the installation:
 
@@ -168,6 +168,35 @@ cp tests/data/synthetic/SYNPHOS.pdb tsr-work/
 cp tsr-work/*.pdb tsr-work/pdb/
 cd tsr-work
 ```
+
+**Installed without a clone** (from PyPI, the wheel or the GitHub tag), download
+the seven entries from the RCSB into `pdb/` and copy them beside it, which
+gives the same layout:
+
+<!-- not-executed -->
+```bash
+mkdir -p tsr-work/pdb
+cd tsr-work
+biotsr fetch 1UBQ 1BRS 3PTB 1BNA 5WT9 7LF9 2AC0 --pdb-dir pdb/
+cp pdb/*.pdb .
+```
+
+`SYNPHOS.pdb` is not a PDB entry, so `biotsr fetch` cannot download it. It
+ships only with the source: the repository and the source distribution
+(`biotsr-1.0.0.tar.gz`), both under `tests/data/synthetic/`. To get it on its
+own, from `tsr-work/`:
+
+<!-- not-executed -->
+```bash
+curl -fLO https://raw.githubusercontent.com/TSRMethod/BioTSR/v1.0.0/tests/data/synthetic/SYNPHOS.pdb
+cp SYNPHOS.pdb pdb/
+```
+
+**The counts on this page come from the bundled copies**: the files under
+`tests/data/structures/` at v1.0.0, whose SHA-256 sums are recorded in
+`tests/data/structures/manifest.json`. The RCSB revises entries over time, so
+a fresh download can differ from those bytes. If a count you get differs from
+this page, compare the file's SHA-256 with the manifest first.
 
 To use your own structures, replace the file name, chain and target with yours.
 
@@ -478,6 +507,18 @@ biotsr run --method aa_ind_mix --pdb 1UBQ.pdb --chain A --residue-types 'LEU;ILE
 biotsr run --method aa_ind_specific --pdb 1UBQ.pdb --chain A --residues 'LEU_15;LEU50' --output results/
 ```
 
+```text
+triangles 4
+output results/ubq_atom_selection
+triangles 59640
+triangles 341376
+triangles 560
+```
+
+On the bundled 1UBQ (§2.1): 4 atoms give C(4,3) = 4 triangles; its 9 leucines
+have 72 heavy atoms, C(72,3) = 59,640; with its 7 isoleucines, 128 atoms,
+C(128,3) = 341,376; LEU 15 and LEU 50 together, 16 atoms, C(16,3) = 560.
+
 `--sample-id` sets the output prefix; it is useful when the default prefix,
 built from the selection, would be long. It must be a plain file-name stem
 (§13.5).
@@ -708,6 +749,22 @@ Selected atoms of one residue:
 biotsr run --method nucleotide_atom_selection --pdb 2AC0.pdb --chain E --entity-name DT --entity-id 7 --atoms "P;C1';N1;C2;O4;C7;C6" --output results/
 ```
 
+```text
+triangles 35
+output results/2AC0_E_nucleotide_atom_selection_DT_7_atoms-P+C1p+N1+C2+O4+C7+C6_ha6305ae521
+```
+
+Seven atoms of the bundled 2AC0 (§2.1) give C(7,3) = 35 triangles. An
+automatic prefix is built only from the characters `A-Z a-z 0-9 . _ + -`;
+any other character becomes `-`, except a prime, which is written `p` so the
+name stays readable (`C1'` becomes `C1p`). That spelling is not exact (`C1'`
+and an atom named `C1P` would read alike), so BioTSR appends the request
+fingerprint `_ha6305ae521`: the first ten hex digits of a SHA-256 over the
+request, so two different requests never share a prefix (§13.5). The
+fingerprint depends only on the request (structure name, chain, method,
+selection, modifiers and settings), not on the file's contents. `--sample-id`
+chooses a prefix instead.
+
 ---
 
 ## 10. Cross TSR
@@ -744,12 +801,24 @@ biotsr run --method protein_protein_calpha_cross --pdb 1BRS.pdb --chain A --chai
 ```
 
 ```text
+triangles 84
 output cross/3PTB_A_A_drug_protein_cross_BEN_1
+triangles 288
 output cross/7LF9_C_A_carbohydrate_protein_cross_NAG_1
+triangles 126
 output cross/2AC0_E_B_nucleotide_protein_cross_DG_8
+triangles 257985
 output cross/1BRS_A_D_protein_protein_cross_cutoff4
+triangles 49140
 output cross/1BRS_A_D_protein_protein_calpha_cross_cutoff8
 ```
+
+The counts are for the bundled structures (§2.1). A cross method draws only
+triangles with points on both sides, so its count is not C(n,3) of the pooled
+points. With `--contact-cutoff 8.0`, 39 Cα of barnase and 35 of barstar enter
+the pools: 39 × C(35,2) + 35 × C(39,2) = 49,140, where C(74,3) would be 64,824.
+The cutoff changes the pools: the same command without `--contact-cutoff`
+uses the method's default of 5 Å, pools 22 and 19 Cα, and draws 8,151.
 
 A prefix names both chains in argument order, then the method, the entity, and
 any setting you gave (`cutoff4`).
@@ -1342,9 +1411,9 @@ structure, chain(s), method, target and the modifiers and settings that change
 the numbers — `1UBQ_A_protein`, `1UBQ_A_protein_mirror`,
 `7LF9_D_carbohydrate_NAG_1`, `7LF9_D_carbohydrate_NAG_allcopies`,
 `1BRS_A_D_protein_protein_cross_A-ARG+LYS_D-ASP+GLU_cutoff5`. When the
-readable form cannot represent the request exactly (an unusual character, a
-lower-case chain) or is longer than 96 characters, a request fingerprint
-`_h<10 hex digits>` is appended. The [CLI guide](CLI_GUIDE.md), §7, *Output
+readable form cannot represent the request exactly (a character outside
+`A-Z a-z 0-9 . _ + -`, a prime written `p`, a lower-case chain) or is longer
+than 96 characters, a request fingerprint `_h<10 hex digits>` is appended. The [CLI guide](CLI_GUIDE.md), §7, *Output
 names*, has the full grammar.
 
 A `sample_id` must be **one plain file-name stem**:
