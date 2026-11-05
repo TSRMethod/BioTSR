@@ -22,9 +22,9 @@ the same name, on any machine and in any batch.  Where the readable form cannot
 represent the request exactly -- a character outside ``A-Z a-z 0-9 . _ + -``,
 a lower-case chain identifier (which a case-insensitive file system cannot tell
 from upper case), or a name longer than :data:`MAX_READABLE` characters -- a
-deterministic request fingerprint is appended (``_h<10 hex digits>``), so two
-different requests never share a name.  A caller may always choose the prefix
-instead (``sample_id``).
+deterministic request fingerprint is appended (``_h<10 hex digits>``), to
+distinguish requests whose readable names would otherwise coincide.  A caller
+may always choose the prefix instead (``sample_id``).
 """
 
 from __future__ import annotations
