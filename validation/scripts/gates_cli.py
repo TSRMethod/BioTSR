@@ -501,8 +501,8 @@ def _run_contract():
         assert set(name) <= naming.SAFE_CHARACTERS, name
         assert name == "1UBQ_A_aa_selection_res-10-12+48+70-71", name
         # Where the readable form is inexact, the request fingerprint is
-        # appended, so two requests never share a name -- not even on a
-        # case-insensitive file system.
+        # appended to distinguish requests whose readable names would otherwise
+        # coincide, including on case-insensitive file systems.
         odd = naming.request_prefix(
             {"structure_id": "1 UBQ/x", "method": "protein", "chain": "A"})
         upper = naming.request_prefix(
