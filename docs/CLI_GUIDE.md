@@ -992,8 +992,8 @@ So a plain and a mirrored run of one chain get different prefixes
 represent the request exactly — a character outside `A-Z a-z 0-9 . _ + -`, a
 prime (written `p`), a lower-case chain identifier, a residue name containing a
 digit in a compact token — or is longer than 96 characters, a request
-fingerprint `_h<10 hex digits>` is appended, so two different requests never
-share a name.
+fingerprint `_h<10 hex digits>` is appended, to distinguish requests whose
+readable names would otherwise coincide.
 
 A sample id must be **one file-name stem**: no `/` or `\`, no absolute path,
 not `.` or `..`, no leading `.` (reserved for hidden and staging names), not

@@ -95,13 +95,13 @@ pip install .                                                         # from a c
 
 The wheel and source distribution are also attached to the
 [1.0.0 release](https://github.com/TSRMethod/BioTSR/releases/tag/v1.0.0) on
-GitHub. **From PyPI**, `pip install biotsr` installs the same release; it is
-available when <https://pypi.org/project/biotsr/> lists version 1.0.0.
+GitHub. **From PyPI**, `python -m pip install biotsr==1.0.0` installs the same
+release (<https://pypi.org/project/biotsr/1.0.0/>).
 
 Batches run one row at a time unless you ask for more with `--jobs N` or
 `--jobs auto`; nothing extra needs installing for that. One optional extra,
-`pip install "biotsr[plot]"` (matplotlib), draws the clustered heat-map figure,
-whose numbers are all available without it.
+`python -m pip install "biotsr[plot]==1.0.0"` (matplotlib), draws the
+clustered heat-map figure, whose numbers are all available without it.
 
 ## First run
 
@@ -140,6 +140,14 @@ could narrow a side of a cross method in several ways, `--cross-side` says
 which. The
 [CLI guide](https://github.com/TSRMethod/BioTSR/blob/main/docs/CLI_GUIDE.md), §7, has the details, including `--dry-run`,
 verified resuming with `--if-exists skip`, and parallel rows with `--jobs`.
+
+The example reads its structures from `pdb/`. Put 1UBQ and 1BRS there first
+(from a clone, copy them from `tests/data/structures/` instead):
+
+<!-- not-executed -->
+```bash
+biotsr fetch 1UBQ 1BRS --pdb-dir pdb/
+```
 
 <!-- file: samples.csv -->
 ```csv
